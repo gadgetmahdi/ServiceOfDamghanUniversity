@@ -3,6 +3,15 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.List;
 
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.IMessageListener;
@@ -11,16 +20,22 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebS
 /**
  * create with mahdi gadget & mehdi vj 11/2018
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     WebServiceCaller webServiceCaller;
+    GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //object sakhtan az class webServiceCaller
         webServiceCaller = new WebServiceCaller();
+
+        //tarif kardane map
+        SupportMapFragment supportMapFragment=(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map_fragment);
+        supportMapFragment.getMapAsync(this);
     }
 
     /**
@@ -40,5 +55,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * baraye google map va meqdar dehi haye google map dar in qesmat anjam mishavad
+     * @param googleMap
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
 
+        map=googleMap;
+
+        //mokhtasate chahar rahe self daneshghahe damghan
+        LatLng latLng=new LatLng(36.168976, 54.322925);
+
+        //mokhtasate noqte shoroe map ro moshakhas mikonad
+        CameraPosition cameraPosition=new CameraPosition.Builder().target(latLng).zoom(15).build();
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        //mishakhas kardane 1 noqte roye map
+        MarkerOptions markerOptions=new MarkerOptions().title("metivj.title")
+                .snippet("metivj.snippet").position(/*az web bayad biad*/).icon(/*aks bayad bezarim*/);
+        map.addMarker(markerOptions);
+
+        //modele map ro moshakhas mikonad
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+        
+    }
 }
