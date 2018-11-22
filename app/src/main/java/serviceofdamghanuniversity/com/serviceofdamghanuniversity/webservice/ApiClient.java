@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient {
 
-    //adresse asli sait
-    public static final String BASE_URI="www.mehdivj.ir";
+    //adresse asli site
+    public static final String BASE_URI="http://31.7.90.52:8082";
 
     //sakht object az retrofit
     private static Retrofit retrofit=null;

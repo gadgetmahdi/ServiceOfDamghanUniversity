@@ -1,6 +1,7 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.models;
 
-import java.util.List;
+
+import retrofit2.Response;
 
 /**
  * create with mahdi gadget 11/2018
@@ -8,8 +9,8 @@ import java.util.List;
  */
 public interface IMessageListener<T> {
 
-    public void onResponse(List<T> Jsonmoels);
+    public void onResponse(Response<T> response);
 
-    public void onErrore(String error);
+    public void onError(String error);
 
 }
