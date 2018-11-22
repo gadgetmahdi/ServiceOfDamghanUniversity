@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.tokenWebService;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,11 +1,12 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.jsonWebService;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface;
 
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonModel.Jsonmodels;
+import retrofit2.http.Url;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonModel.Position;
 
 /**
  * create with mahdi gadget 11/2018
@@ -14,9 +15,10 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonMode
 public interface JsonInterface {
 
 //address file ro midim behesh
-    @GET("http://31.7.90.52:8082/?token=ty2LedFSj6ZuClSH378PFREJ1G3ApB90")
-    Call<List<Jsonmodels>> getAllJson();
-
+    @GET
+    Call<List<Position>> getAllJson(
+      @Url String url
+    );
 
 
 }

@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.jsonWebService;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.client;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -7,10 +7,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create with mahdi gadget 11/2018
  * in class singleton hast , baraye ijad object az retrofit va url va...
  */
-public class JsonClient {
+public class MainClient {
 
   //adresse asli site
-  public static final String BASE_URI = "http://31.7.90.52:8082";
+  public static final String BASE_URI = "http://skill.du.ac.ir:8082";
 
   //sakht object az retrofit
   private static Retrofit retrofit = null;
