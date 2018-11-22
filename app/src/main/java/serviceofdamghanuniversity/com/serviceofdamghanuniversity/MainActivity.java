@@ -11,11 +11,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.List;
-
 import retrofit2.Response;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.IMessageListener;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.Jsonmodels;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
 /**
@@ -32,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     setContentView(R.layout.activity_main);
 
     //object sakhtan az class webServiceCaller
-    webServiceCaller = WebServiceCaller.getInstance();
+    webServiceCaller = WebServiceCaller.getInstance(this);
 
     //tarif kardane map
     SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
@@ -44,10 +41,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
    * gereftane json ha va kar bar roye an ha dar activity
    */
   public void getAlljson() {
-    webServiceCaller.getAllJson(new IMessageListener<List<Jsonmodels>>() {
+    webServiceCaller.getAllJson("/api/positions" , new ResponseListener.JsonResponse() {
+
 
       @Override
-      public void onResponse(Response response) {
+      public void onResponseJson(Response response) {
 
       }
 

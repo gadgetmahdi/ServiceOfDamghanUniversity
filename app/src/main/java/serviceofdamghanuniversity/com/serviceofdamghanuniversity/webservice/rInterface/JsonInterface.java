@@ -1,11 +1,11 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.jsonWebService;
 
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.Jsonmodels;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonModel.Jsonmodels;
 
 /**
  * create with mahdi gadget 11/2018

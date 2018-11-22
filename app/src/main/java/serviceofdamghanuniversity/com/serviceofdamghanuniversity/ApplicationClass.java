@@ -1,7 +1,6 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
 import android.app.Application;
-import android.widget.Toast;
 
 
 public class ApplicationClass extends Application{
@@ -11,7 +10,8 @@ public class ApplicationClass extends Application{
   public void onCreate() {
     super.onCreate();
 
-    TokenClass.getInstance(getApplicationContext());
+    TokenClass tokenClass = TokenClass.getInstance(getApplicationContext());
+    tokenClass.createNewTokenIfIsNotExist();
   }
 
 
