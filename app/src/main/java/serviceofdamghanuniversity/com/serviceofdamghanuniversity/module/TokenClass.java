@@ -3,6 +3,7 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.module;
 import android.content.Context;
 import android.widget.Toast;
 
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
@@ -52,8 +53,7 @@ public class TokenClass {
       @Override
       public void onError(String error) {
         saveTokenListener.error();
-        Toast.makeText(context, "server not respond, " +
-          "please try again later.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.servernotfond, Toast.LENGTH_SHORT).show();
 
       }
     });

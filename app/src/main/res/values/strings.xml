@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">serviceofdamghanuniversity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="servernotfond">سرور در دسترس نیست،لطفا بعدا تلاش کنید</string>
+    <string name="not_location">موقعیت شما در دسترس نیست</string>
+    <string name="get_location">در حال دریافت اطلاعات از سرور</string>
+    <string name="nodata">هیچ اطلاعاتی در دسترس نیست</string>
+    <string name="serverـerror">خطا در دریافت اطلاعات از سرور</string>
 </resources>

@@ -79,7 +79,7 @@ public class MainActivity extends PermissionClass implements OnMapReadyCallback,
 
           isSetCameraToMyLocation = true;
         }else {
-          Toast.makeText(MainActivity.this, "your location not available.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(MainActivity.this,R.string.not_location, Toast.LENGTH_SHORT).show();
         }
 
       }
@@ -95,7 +95,7 @@ public class MainActivity extends PermissionClass implements OnMapReadyCallback,
 
     TokenDb tokenDb = new TokenDb(this);
     if (tokenDb.checkIsShHaveData()) {
-      Toast.makeText(this, "please wait until get data from server.", Toast.LENGTH_LONG).show();
+      Toast.makeText(this,R.string.get_location, Toast.LENGTH_LONG).show();
       webServiceCaller.createSession(tokenDb.getToken(), this);
     }
   }
@@ -164,7 +164,7 @@ public class MainActivity extends PermissionClass implements OnMapReadyCallback,
 
         } else {
           isGetNewPosUpdate = false;
-          Toast.makeText(MainActivity.this, "no data available.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(MainActivity.this,R.string.nodata, Toast.LENGTH_SHORT).show();
         }
 
         map.setOnMapLoadedCallback(MainActivity.this);
@@ -172,7 +172,7 @@ public class MainActivity extends PermissionClass implements OnMapReadyCallback,
 
       @Override
       public void onError(String error) {
-        Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this,R.string.serverـerror, Toast.LENGTH_LONG).show();
         isGetNewPosUpdate = false;
       }
     });
@@ -214,8 +214,7 @@ public class MainActivity extends PermissionClass implements OnMapReadyCallback,
 
   @Override
   public void onError(String error) {
-    Toast.makeText(this, "server not respond, " +
-      "please try again later.", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this,R.string.servernotfond, Toast.LENGTH_SHORT).show();
 
   }
 
