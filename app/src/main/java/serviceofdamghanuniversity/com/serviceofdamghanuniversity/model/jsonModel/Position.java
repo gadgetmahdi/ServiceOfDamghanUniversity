@@ -15,7 +15,7 @@ public class Position {
 
   @SerializedName("deviceId")
   @Expose
-  private String deviceId;
+  private int deviceId;
 
   @SerializedName("protocol")
   @Expose
@@ -32,33 +32,43 @@ public class Position {
   @SerializedName("fixTime")
   @Expose
   private String fixTime;
+
   @SerializedName("outdated")
   @Expose
   private boolean outdated;
+
   @SerializedName("valid")
   @Expose
   private boolean valid;
+
   @SerializedName("latitude")
   @Expose
   private double latitude;
+
   @SerializedName("longitude")
   @Expose
   private double longitude;
+
   @SerializedName("altitude")
   @Expose
   private int altitude;
+
   @SerializedName("speed")
   @Expose
   private int speed;
+
   @SerializedName("course")
   @Expose
   private int course;
+
   @SerializedName("address")
   @Expose
   private String address;
+
   @SerializedName("accuracy")
   @Expose
   private int accuracy;
+
   @SerializedName("network")
   @Expose
   private String network;
@@ -72,11 +82,11 @@ public class Position {
     this.id = id;
   }
 
-  public String getDeviceId() {
+  public int getDeviceId() {
     return deviceId;
   }
 
-  public void setDeviceId(String deviceId) {
+  public void setDeviceId(int deviceId) {
     this.deviceId = deviceId;
   }
 

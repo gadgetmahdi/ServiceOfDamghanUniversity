@@ -1,17 +1,8 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,11 +10,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Response;
@@ -35,11 +26,13 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebS
 /**
  * create with mahdi gadget & mehdi vj 11/2018
  */
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, ResponseListener.Session , GoogleMap.OnMapLoadedCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, ResponseListener.Session, GoogleMap.OnMapLoadedCallback {
 
   WebServiceCaller webServiceCaller;
   GoogleMap map;
-  private LatLng latLng;
+  private ArrayList<Position> listPositions = new ArrayList<>();
+  private boolean isGetNewPosUpdate = true;
+  private final static int requestInterval = 10000;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +66,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
       public void onResponseJson(Response<List<Position>> response) {
         //Log.w("mehdiTest" , ((List<Position>)response.body()).get(0).getLatitude()+"");
         List<Position> positions = response.body();
+
         if (positions != null) {
-          latLng = new LatLng(positions.get(0).getLatitude() , positions.get(0).getLongitude());
+
+          listPositions.addAll(positions);
+
+        } else {
+          Toast.makeText(MainActivity.this, "no data available.", Toast.LENGTH_SHORT).show();
         }
 
         map.setOnMapLoadedCallback(MainActivity.this);
@@ -82,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
       @Override
       public void onError(String error) {
-        Log.w("mehdiTest", error);
+        Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_SHORT).show();
       }
     });
   }
@@ -104,10 +102,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
   }
 
 
-
   @Override
   public void onSessionCreated() {
-    getBusPositions();
+    final Handler mHandler = new Handler();
+
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        getBusPositions();
+        if (isGetNewPosUpdate) {
+          mHandler.postDelayed(this, requestInterval);
+        }
+      }
+    };
+
+    mHandler.post(runnable);
   }
 
   @Override
@@ -119,34 +128,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
   @Override
   public void onMapLoaded() {
-    if(latLng != null) {
-      //mokhtasate noqte shoroe map ro moshakhas mikonad
-      CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
-      map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    if (listPositions.size() > 0) {
+      for (Position position : listPositions) {
 
-      //mishakhas kardane 1 noqte roye map
-      MarkerOptions markerOptions = new MarkerOptions().title("metivj.title")
-        .snippet("metivj.snippet").position(latLng).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromVectorDrawable(R.drawable.ic_bus_green)));
-      map.addMarker(markerOptions);
+        BusDetails busDetails = BusDetailsHelper.parseBusDetails(this , position);
+        LatLng pos = busDetails.getLatLng();
+        String name = busDetails.getName();
+        String details = busDetails.getDetail();
+        String driverName = busDetails.getDriverName();
+        BitmapDescriptor icon = busDetails.getIcon();
+
+        //mokhtasate noqte shoroe map ro moshakhas mikonad
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        //mishakhas kardane 1 noqte roye map
+        MarkerOptions markerOptions = new MarkerOptions().title(name)
+          .snippet(details).position(pos).icon(icon);
+        map.addMarker(markerOptions);
+      }
     }
   }
 
 
 
-
-  public Bitmap getBitmapFromVectorDrawable(int drawableId) {
-    Drawable drawable = ContextCompat.getDrawable(this , drawableId);
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-      drawable = (DrawableCompat.wrap(drawable)).mutate();
-    }
-
-    Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-      drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(bitmap);
-    drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-    drawable.draw(canvas);
-
-    return bitmap;
-  }
 
 }
