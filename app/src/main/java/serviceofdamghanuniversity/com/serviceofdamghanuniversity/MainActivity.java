@@ -1,8 +1,16 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,25 +30,60 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetails;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetailsHelper;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.PermissionHandler;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
 /**
  * create with mahdi gadget & mehdi vj 11/2018
  */
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, ResponseListener.Session, GoogleMap.OnMapLoadedCallback {
+public class MainActivity extends PermissionClass implements OnMapReadyCallback, ResponseListener.Session, GoogleMap.OnMapLoadedCallback {
 
+  public final static long MIN_TIME_BW_UPDATES = 2000;
+  public final static float MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
   WebServiceCaller webServiceCaller;
   GoogleMap map;
   private ArrayList<Position> listPositions = new ArrayList<>();
   private boolean isGetNewPosUpdate = true;
   private final static int requestInterval = 10000;
+  private LocationManager locationManager;
+  private boolean isSetCameraToMyLocation = false;
+  private boolean isPermissionRequestSend = false;
+  private String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
+  private boolean isGpsEnabled, isNetworkEnabled;
+  private FloatingActionButton floatingActionButton;
+  private LatLng myLocation;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    floatingActionButton = findViewById(R.id.floatingActionButton);
+
+    // location manager for get user location
+    locationManager = createLocationManagerForGetUserLocation();
+
+    checkProviderIsEnable();
+
+    createListenerForGpsOrNet();
+
+
+    floatingActionButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        if(myLocation != null){
+          //mokhtasate noqte shoroe map ro moshakhas mikonad
+          CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(15).build();
+          map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+          isSetCameraToMyLocation = true;
+        }else {
+          Toast.makeText(MainActivity.this, "your location not available.", Toast.LENGTH_SHORT).show();
+        }
+
+      }
+    });
 
     //object sakhtan az class webServiceCaller
     webServiceCaller = WebServiceCaller.getInstance();
@@ -52,10 +95,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     TokenDb tokenDb = new TokenDb(this);
     if (tokenDb.checkIsShHaveData()) {
-      webServiceCaller.createSession(tokenDb.getToken() , this);
+      Toast.makeText(this, "please wait until get data from server.", Toast.LENGTH_LONG).show();
+      webServiceCaller.createSession(tokenDb.getToken(), this);
     }
   }
 
+
+  private LocationManager createLocationManagerForGetUserLocation() {
+    return (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+  }
+
+
+  private void checkProviderIsEnable() {
+    isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+  }
+
+  protected void createListenerForGpsOrNet() {
+    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+      if (isGpsEnabled) {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, new CheckGpsLocationListener());
+      } else if (isNetworkEnabled) {
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, new CheckGpsLocationListener());
+      } else {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, new CheckGpsLocationListener());
+      }
+    } else {
+      if (!isPermissionRequestSend) {
+        requestPermission();
+      }
+    }
+  }
+
+
+  private void requestPermission() {
+    isPermissionRequestSend = true;
+
+    PermissionHandler.OnPermissionResponse permissionHandler = new PermissionHandler.OnPermissionResponse() {
+      @Override
+      public void onPermissionGranted() {
+        createListenerForGpsOrNet();
+      }
+
+      @Override
+      public void onPermissionDenied() {
+      }
+    };
+
+    new PermissionHandler().checkPermission(MainActivity.this, permissions, permissionHandler);
+
+  }
 
   /**
    * gereftane json ha va kar bar roye an ha dar activity
@@ -83,8 +172,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
       @Override
       public void onError(String error) {
-          Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_LONG).show();
-          isGetNewPosUpdate = false;
+        Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_LONG).show();
+        isGetNewPosUpdate = false;
       }
     });
   }
@@ -135,22 +224,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     if (listPositions.size() > 0) {
       for (Position position : listPositions) {
 
-        BusDetails busDetails = BusDetailsHelper.parseBusDetails(this , position);
+        BusDetails busDetails = BusDetailsHelper.parseBusDetails(this, position);
         LatLng pos = busDetails.getLatLng();
         String name = busDetails.getName();
         String details = busDetails.getDetail();
         String driverName = busDetails.getDriverName();
         BitmapDescriptor icon = busDetails.getIcon();
 
-        //mokhtasate noqte shoroe map ro moshakhas mikonad
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        if(!isSetCameraToMyLocation) {
+          //mokhtasate noqte shoroe map ro moshakhas mikonad
+          CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
+          map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        }
 
         //mishakhas kardane 1 noqte roye map
         MarkerOptions markerOptions = new MarkerOptions().title(name)
           .snippet(details).position(pos).icon(icon);
         map.addMarker(markerOptions);
       }
+    }
+  }
+
+
+  // inner class for listener of gps
+  public class CheckGpsLocationListener implements LocationListener {
+    @Override
+    public void onLocationChanged(Location location) {
+
+        myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
   }
 

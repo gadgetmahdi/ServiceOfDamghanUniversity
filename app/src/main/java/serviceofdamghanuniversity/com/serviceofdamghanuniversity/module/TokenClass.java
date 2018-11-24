@@ -8,7 +8,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
-public class TokenClass  {
+public class TokenClass {
 
   private static TokenClass tokenClass = null;
   private static TokenDb tokenDb;
@@ -16,14 +16,14 @@ public class TokenClass  {
   private SaveTokenListener saveTokenListener;
 
 
-  public static TokenClass getInstance(Context context , SaveTokenListener saveTokenListener) {
+  public static TokenClass getInstance(Context context, SaveTokenListener saveTokenListener) {
     if (tokenClass == null)
-      tokenClass = new TokenClass(context , saveTokenListener);
+      tokenClass = new TokenClass(context, saveTokenListener);
 
     return tokenClass;
   }
 
-  private TokenClass(Context context , SaveTokenListener saveTokenListener) {
+  private TokenClass(Context context, SaveTokenListener saveTokenListener) {
     this.context = context;
     this.saveTokenListener = saveTokenListener;
     tokenDb = new TokenDb(context);
@@ -32,7 +32,6 @@ public class TokenClass  {
 
   public boolean createNewTokenIfIsNotExist() {
     if (!tokenDb.checkIsShCreated()) {
-      Toast.makeText(context, "please wait until get data from server.", Toast.LENGTH_LONG).show();
       getToken();
       return false;
     }
