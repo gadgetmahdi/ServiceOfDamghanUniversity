@@ -6,4 +6,6 @@
     <string name="get_location">در حال دریافت اطلاعات از سرور</string>
     <string name="nodata">هیچ اطلاعاتی در دسترس نیست</string>
     <string name="serverـerror">خطا در دریافت اطلاعات از سرور</string>
+    <string name="creat_by">کاری از انجمن علمی مهندسی کامپیوتر دانشگاه دامغان</string>
+    <string name="creat_by_user">power by M.vizhe and M.gadget</string>
 </resources>
