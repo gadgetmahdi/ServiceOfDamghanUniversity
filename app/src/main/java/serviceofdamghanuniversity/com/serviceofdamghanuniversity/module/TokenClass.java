@@ -29,19 +29,18 @@ public class TokenClass  {
     tokenDb = new TokenDb(context);
   }
 
-  public void generateNewToken() {
-    getToken();
-  }
 
-  public void createNewTokenIfIsNotExist() {
+  public boolean createNewTokenIfIsNotExist() {
     if (!tokenDb.checkIsShCreated()) {
       Toast.makeText(context, "please wait until get data from server.", Toast.LENGTH_LONG).show();
       getToken();
+      return false;
     }
+    return true;
   }
 
   private void getToken() {
-    WebServiceCaller webServiceCaller = WebServiceCaller.getInstance(context);
+    WebServiceCaller webServiceCaller = WebServiceCaller.getInstance();
 
     webServiceCaller.getToken(new ResponseListener.TokenResponse() {
 

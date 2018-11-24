@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
   private ArrayList<Position> listPositions = new ArrayList<>();
   private boolean isGetNewPosUpdate = true;
   private final static int requestInterval = 10000;
-  private int countOfErrorShow = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //object sakhtan az class webServiceCaller
-    webServiceCaller = WebServiceCaller.getInstance(this);
+    webServiceCaller = WebServiceCaller.getInstance();
 
     //tarif kardane map
     SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
@@ -52,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
       supportMapFragment.getMapAsync(this);
 
     TokenDb tokenDb = new TokenDb(this);
-    if (tokenDb.checkIsShCreated()) {
-      webServiceCaller.createSession(this);
+    if (tokenDb.checkIsShHaveData()) {
+      webServiceCaller.createSession(tokenDb.getToken() , this);
     }
   }
 
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
           listPositions.addAll(positions);
 
         } else {
+          isGetNewPosUpdate = false;
           Toast.makeText(MainActivity.this, "no data available.", Toast.LENGTH_SHORT).show();
         }
 
@@ -83,10 +83,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
       @Override
       public void onError(String error) {
-        if(countOfErrorShow < 3) {
-          countOfErrorShow++;
-          Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_SHORT).show();
-        }
+          Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_LONG).show();
+          isGetNewPosUpdate = false;
       }
     });
   }

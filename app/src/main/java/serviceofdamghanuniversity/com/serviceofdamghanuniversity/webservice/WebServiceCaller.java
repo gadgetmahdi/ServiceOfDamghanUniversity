@@ -14,7 +14,6 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.webS
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.User;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.client.MainClient;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.JsonInterface;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.client.TokenClient;
@@ -33,37 +32,28 @@ public class WebServiceCaller {
   private TokenInterface tokenInterface;
   private SessionInterface sessionInterface;
 
-  private String token;
 
 
-  public static WebServiceCaller getInstance(Context context) {
+  public static WebServiceCaller getInstance() {
     if (webServiceCaller == null)
-      webServiceCaller = new WebServiceCaller(context);
+      webServiceCaller = new WebServiceCaller();
 
     return webServiceCaller;
   }
 
-  private WebServiceCaller(Context context) {
-    TokenDb tokenDb = new TokenDb(context);
-    if (tokenDb.getToken() != null) {
-      token = tokenDb.getToken();
-    } else {
-      //TokenClass tokenClass = TokenClass.getInstance(context);
-     // tokenClass.generateNewToken();
-    }
-
+  private WebServiceCaller() {
     jsonInterface = MainClient.getClient().create(JsonInterface.class);
     sessionInterface = MainClient.getClient().create(SessionInterface.class);
     tokenInterface = TokenClient.getClient().create(TokenInterface.class);
   }
 
 
-  public void createSession(final ResponseListener.Session responseSession) {
+  public void createSession(String token ,final ResponseListener.Session responseSession) {
     Call<User> session = sessionInterface.createSession(token);
     session.enqueue(new Callback<User>() {
       @Override
       public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-        //Log.w("MehdiTest13", response.toString()+"");
+        Log.w("MehdiTest13", response.toString()+"");
         responseSession.onSessionCreated();
       }
 

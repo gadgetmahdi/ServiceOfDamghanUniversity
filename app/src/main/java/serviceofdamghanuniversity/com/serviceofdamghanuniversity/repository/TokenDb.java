@@ -21,6 +21,10 @@ public class TokenDb {
     return prefs.contains(PREFS_INITIALIZED);
   }
 
+  public boolean checkIsShHaveData() {
+    return prefs.contains(PREFS_TOKEN);
+  }
+
   public void saveToken(String token) {
     if (!checkIsShCreated()) {
       SharedPreferences.Editor shEditor = prefs.edit();
