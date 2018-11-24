@@ -1,21 +1,29 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonModel;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Position {
-
   @SerializedName("id")
   @Expose
   private int id;
 
+ /* @SerializedName("attributes")
+  @Expose
+  private Attributes attributes;
+  */
+
   @SerializedName("deviceId")
   @Expose
-  private int deviceId;
+  private String deviceId;
 
   @SerializedName("protocol")
   @Expose
   private String protocol;
+
+  @SerializedName("serverTime")
+  @Expose
+  private String serverTime;
 
   @SerializedName("deviceTime")
   @Expose
@@ -24,39 +32,36 @@ public class Position {
   @SerializedName("fixTime")
   @Expose
   private String fixTime;
-
-  @SerializedName("serverTime")
+  @SerializedName("outdated")
   @Expose
-  private String serverTime;
-
-
+  private boolean outdated;
+  @SerializedName("valid")
+  @Expose
+  private boolean valid;
   @SerializedName("latitude")
   @Expose
-  private int latitude;
-
-
+  private double latitude;
   @SerializedName("longitude")
   @Expose
-  private int longitude;
-
-
+  private double longitude;
   @SerializedName("altitude")
   @Expose
   private int altitude;
-
-
   @SerializedName("speed")
   @Expose
   private int speed;
-
-
+  @SerializedName("course")
+  @Expose
+  private int course;
   @SerializedName("address")
   @Expose
   private String address;
-
   @SerializedName("accuracy")
   @Expose
   private int accuracy;
+  @SerializedName("network")
+  @Expose
+  private String network;
 
 
   public int getId() {
@@ -67,11 +72,11 @@ public class Position {
     this.id = id;
   }
 
-  public int getDeviceId() {
+  public String getDeviceId() {
     return deviceId;
   }
 
-  public void setDeviceId(int deviceId) {
+  public void setDeviceId(String deviceId) {
     this.deviceId = deviceId;
   }
 
@@ -81,6 +86,14 @@ public class Position {
 
   public void setProtocol(String protocol) {
     this.protocol = protocol;
+  }
+
+  public String getServerTime() {
+    return serverTime;
+  }
+
+  public void setServerTime(String serverTime) {
+    this.serverTime = serverTime;
   }
 
   public String getDeviceTime() {
@@ -99,27 +112,35 @@ public class Position {
     this.fixTime = fixTime;
   }
 
-  public String getServerTime() {
-    return serverTime;
+  public boolean isOutdated() {
+    return outdated;
   }
 
-  public void setServerTime(String serverTime) {
-    this.serverTime = serverTime;
+  public void setOutdated(boolean outdated) {
+    this.outdated = outdated;
   }
 
-  public int getLatitude() {
+  public boolean isValid() {
+    return valid;
+  }
+
+  public void setValid(boolean valid) {
+    this.valid = valid;
+  }
+
+  public double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(int latitude) {
+  public void setLatitude(double latitude) {
     this.latitude = latitude;
   }
 
-  public int getLongitude() {
+  public double getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(int longitude) {
+  public void setLongitude(double longitude) {
     this.longitude = longitude;
   }
 
@@ -139,6 +160,14 @@ public class Position {
     this.speed = speed;
   }
 
+  public int getCourse() {
+    return course;
+  }
+
+  public void setCourse(int course) {
+    this.course = course;
+  }
+
   public String getAddress() {
     return address;
   }
@@ -153,5 +182,13 @@ public class Position {
 
   public void setAccuracy(int accuracy) {
     this.accuracy = accuracy;
+  }
+
+  public String getNetwork() {
+    return network;
+  }
+
+  public void setNetwork(String network) {
+    this.network = network;
   }
 }

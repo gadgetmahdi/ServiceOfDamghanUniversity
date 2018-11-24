@@ -34,7 +34,6 @@ public class TokenClient {
   public static Retrofit getClient() {
     if (retrofit == null) {
 
-
       retrofit = new Retrofit.Builder()
         .baseUrl(BASE_URI)
         .client(createOkHttpClient().build())

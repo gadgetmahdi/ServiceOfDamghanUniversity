@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.tokenModel;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.tokenModel;
 
 
 public class TokenModel {

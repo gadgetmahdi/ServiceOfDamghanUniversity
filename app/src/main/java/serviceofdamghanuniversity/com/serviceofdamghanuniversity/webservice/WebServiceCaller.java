@@ -7,14 +7,13 @@ import android.util.Log;
 import java.util.List;
 
 import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.LoggingInterceptor;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.TokenClass;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonModel.Position;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.listener.ResponseListener;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.User;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.client.MainClient;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.JsonInterface;
@@ -54,17 +53,18 @@ public class WebServiceCaller {
     }
 
     jsonInterface = MainClient.getClient().create(JsonInterface.class);
-    tokenInterface = TokenClient.getClient().create(TokenInterface.class);
     sessionInterface = MainClient.getClient().create(SessionInterface.class);
+    tokenInterface = TokenClient.getClient().create(TokenInterface.class);
   }
 
 
   public void createSession(final ResponseListener.Session responseSession) {
-    Call<String> session = sessionInterface.createSession(token);
-    session.enqueue(new Callback<String>() {
+    Call<User> session = sessionInterface.createSession(token);
+    session.enqueue(new Callback<User>() {
       @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) {
-        Log.w("MehdiTest11", response.raw().request().url()+"");
+      public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+        //Log.w("MehdiTest13", response.toString()+"");
+        responseSession.onSessionCreated();
       }
 
       @Override
@@ -114,7 +114,9 @@ public class WebServiceCaller {
     json.enqueue(new Callback<List<Position>>() {
       @Override
       public void onResponse(@NonNull Call<List<Position>> call, @NonNull Response<List<Position>> response) {
-
+          Log.w("MehdiTest13", response.toString()+"");
+       // Log.w("MehdiTest13", response.headers()+"");
+        //Log.w("MehdiTest13", response.raw().headers()+"");
         jsonResponse.onResponseJson(response);
 
       }

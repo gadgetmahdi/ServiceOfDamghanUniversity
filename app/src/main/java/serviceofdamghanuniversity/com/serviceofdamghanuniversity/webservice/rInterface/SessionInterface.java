@@ -4,11 +4,12 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rIn
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.User;
 
 public interface SessionInterface {
 
   @GET("/api/session")
-  Call<String> createSession(
+  Call<User> createSession(
     @Query("token") String token
   );
 

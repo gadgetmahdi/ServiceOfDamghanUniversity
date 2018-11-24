@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity.models.jsonModel;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
