@@ -1,11 +1,12 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.BitmapToVectorDrawable;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 
 public class BusDetailsHelper {

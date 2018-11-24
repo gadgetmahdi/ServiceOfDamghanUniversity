@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.module;
 
 import android.content.Context;
 import android.graphics.Bitmap;

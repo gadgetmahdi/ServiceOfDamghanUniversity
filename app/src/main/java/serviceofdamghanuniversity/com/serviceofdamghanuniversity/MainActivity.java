@@ -20,6 +20,8 @@ import java.util.List;
 import retrofit2.Response;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetails;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetailsHelper;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
   private ArrayList<Position> listPositions = new ArrayList<>();
   private boolean isGetNewPosUpdate = true;
   private final static int requestInterval = 10000;
+  private int countOfErrorShow = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
       @Override
       public void onError(String error) {
-        Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_SHORT).show();
+        if(countOfErrorShow < 3) {
+          countOfErrorShow++;
+          Toast.makeText(MainActivity.this, "server error.", Toast.LENGTH_SHORT).show();
+        }
       }
     });
   }

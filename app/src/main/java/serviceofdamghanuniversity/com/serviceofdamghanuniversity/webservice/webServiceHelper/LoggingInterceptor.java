@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.webServiceHelper;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

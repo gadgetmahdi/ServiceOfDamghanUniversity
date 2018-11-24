@@ -3,6 +3,9 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 import android.app.Application;
 import android.content.Intent;
 
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
+
 
 public class ApplicationClass extends Application implements SaveTokenListener {
 
