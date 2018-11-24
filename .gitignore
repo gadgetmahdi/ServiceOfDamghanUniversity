@@ -16,8 +16,6 @@
 
 \.gradle/vcsWorkingDirs/gc\.properties
 
-*.java
-
 app/build/intermediates/blame/res/debug/multi-v2/
 
 app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/
