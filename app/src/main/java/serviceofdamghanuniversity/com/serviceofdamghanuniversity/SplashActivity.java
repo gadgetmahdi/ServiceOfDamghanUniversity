@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
-import com.onesignal.OneSignal;
+
 
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.PermissionHandler;
@@ -23,9 +23,7 @@ public class SplashActivity extends PermissionClass implements SaveTokenListener
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
 
-    OneSignal.startInit(this)
-            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-            .unsubscribeWhenNotificationsAreDisabled(true).init();
+
 
     tokenClass = TokenClass.getInstance(getApplicationContext(), this);
 
