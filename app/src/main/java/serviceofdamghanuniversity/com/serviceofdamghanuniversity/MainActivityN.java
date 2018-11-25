@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,8 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
     new LocationManagerHelper(this, this);
 
+
+    
 
 
 
