@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -72,6 +73,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
   @BindView(R.id.map_type_terrain_background)
   View map_type_terrain_background;
+
+  @BindView(R.id.mapView)
+  MapView mapView;
 
   @BindView(R.id.map_type_terrain)
   ImageView map_type_terrain;
@@ -133,18 +137,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    MapView mMapView = view.findViewById(R.id.mapView);
-    mMapView.onCreate(savedInstanceState);
+    mapView.onCreate(savedInstanceState);
 
-    mMapView.onResume(); // needed to get the map to display immediately
+    mapView.onResume(); // needed to get the map to display immediately
 
-    mMapView.getMapAsync(this);
+    mapView.getMapAsync(this);
 
     try {
       MapsInitializer.initialize(getActivity().getApplicationContext());
     } catch (Exception e) {
       e.printStackTrace();
     }
+
 
     return view;
   }
@@ -173,10 +177,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
   }
 
+
   @OnClick(R.id.map_type_FAB)
   public void map_type_FAB() {
     // Conduct the animation if the FAB is invisible (window open)
-    if (map_type_FAB.getVisibility() == View.INVISIBLE) {
+    if (map_type_selection.getVisibility() == View.INVISIBLE) {
 
       // Start animator close and finish at the FAB position
       Animator animator = null;
@@ -188,7 +193,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
           map_type_FAB.getWidth() / 2f);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.setDuration(200);
-        animator.start();
         animator.addListener(new Animator.AnimatorListener() {
           @Override
           public void onAnimationStart(Animator animator) {
@@ -197,7 +201,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
           @Override
           public void onAnimationEnd(Animator animator) {
-            map_type_selection.setVisibility(View.INVISIBLE);
+            map_type_selection.setVisibility(View.VISIBLE);
           }
 
           @Override
@@ -211,6 +215,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
           }
         });
 
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
           @Override
@@ -223,8 +228,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
       }
-
     }
+
+
   }
 
   @OnClick(R.id.map_type_default)
@@ -266,6 +272,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map = googleMap;
     setSettingForMap(map);
 
+    LatLng selfPos = new LatLng(36.168917,54.323100);
+    setMapCamera(selfPos);
+
     if (getActivity() != null) {
       if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
         map.setMyLocationEnabled(true);
@@ -293,7 +302,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-}
+    map.setOnMapClickListener(new GoogleMap.OnMapClickListener()
+    {
+      @Override
+      public void onMapClick(LatLng arg0)
+      {
+        if (map_type_selection.getVisibility() == View.VISIBLE) {
+          map_type_selection.setVisibility(View.INVISIBLE);
+        }
+      }
+    });
+
+
+  }
 
   private void setSettingForMap(GoogleMap map) {
     map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -346,7 +367,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
   private void setMapCamera(LatLng pos) {
-    CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
+    CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
     map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
   }
 }

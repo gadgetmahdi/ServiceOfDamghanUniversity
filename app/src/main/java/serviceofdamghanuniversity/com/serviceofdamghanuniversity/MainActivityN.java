@@ -18,7 +18,9 @@ import butterknife.ButterKnife;
 import retrofit2.Response;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.PermissionHandler;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
@@ -61,6 +63,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   private PositionsForMap mPositions;
   private PositionsForBuses mBusPositions;
   private final static int requestInterval = 10000;
+  private TokenDb tokenDb;
   private String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
 
 
@@ -89,10 +92,22 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     webServiceCaller = WebServiceCaller.getInstance();
 
 
-    TokenDb tokenDb = new TokenDb(this);
+    tokenDb = new TokenDb(this);
     if (tokenDb.checkIsShHaveData()) {
       Toast.makeText(this, "please wait until get data from server.", Toast.LENGTH_LONG).show();
       webServiceCaller.createSession(tokenDb.getToken(), this);
+    }else {
+      TokenClass.getInstance(getApplicationContext(), new SaveTokenListener() {
+        @Override
+        public void savedToken() {
+          webServiceCaller.createSession(tokenDb.getToken(), MainActivityN.this);
+        }
+
+        @Override
+        public void error() {
+
+        }
+      });
     }
   }
 
