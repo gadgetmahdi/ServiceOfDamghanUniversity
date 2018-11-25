@@ -1,20 +1,19 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.PermissionHandler;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
 
 
-public class SplashActivity extends PermissionClass implements SaveTokenListener {
+public class SplashActivity extends Activity implements SaveTokenListener {
 
   private TokenClass tokenClass;
   private static final int SPLASH_DISPLAY_LENGTH = 1000;
-  private String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
 
 
   @Override
@@ -27,24 +26,6 @@ public class SplashActivity extends PermissionClass implements SaveTokenListener
     if (tokenClass.createNewTokenIfIsNotExist()) {
       showSplash();
     }
-
-  }
-
-  private void requestPermission() {
-
-    PermissionHandler.OnPermissionResponse permissionHandler = new PermissionHandler.OnPermissionResponse() {
-      @Override
-      public void onPermissionGranted() {
-        openMainActivity();
-      }
-
-      @Override
-      public void onPermissionDenied() {
-        openMainActivity();
-      }
-    };
-
-    new PermissionHandler().checkPermission(SplashActivity.this, permissions, permissionHandler);
 
   }
 
@@ -65,7 +46,8 @@ public class SplashActivity extends PermissionClass implements SaveTokenListener
     new Handler().postDelayed(new Runnable() {
       @Override
       public void run() {
-        requestPermission();
+
+        openMainActivity();
       }
     }, SPLASH_DISPLAY_LENGTH);
 

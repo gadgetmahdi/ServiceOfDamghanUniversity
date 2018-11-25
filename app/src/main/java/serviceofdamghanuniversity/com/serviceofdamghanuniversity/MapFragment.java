@@ -350,13 +350,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         hmBusIdAndPos.put(busId, pos);
 
-        if (!isSetCameraToMyLocation) {
+        /*if (!isSetCameraToMyLocation) {
           if (busId == busIdSelected) {
             setMapCamera(pos);
           } else if (busIdSelected == -1) {
             //setMapCamera(pos);
           }
-        }
+        }*/
 
         MarkerOptions markerOptions = new MarkerOptions().title(name)
           .snippet(details).position(pos).icon(icon);
