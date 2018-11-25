@@ -2,10 +2,8 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStu
 
 import android.content.Context;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.BitmapToVectorDrawable;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 
@@ -20,13 +18,13 @@ public class BusDetailsHelper {
       case 0:
         break;
       case 10:
+        busDetails.setBusId(position.getDeviceId());
         busDetails.setName("green bus");
         busDetails.setDetail("only for girls student.");
         busDetails.setDriverName("peter jackson");
         busDetails.setSpeed(position.getSpeed());
         busDetails.setLatLng(new LatLng(position.getLatitude(), position.getLongitude()));
-        busDetails.setIcon(BitmapDescriptorFactory.fromBitmap(
-          BitmapToVectorDrawable.getVectorDrawable(context, R.drawable.ic_bus_green)));
+        busDetails.setIconId(R.drawable.ic_bus_green);
         break;
     }
 

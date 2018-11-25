@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:orientation="horizontal"
     android:gravity="center"
     android:id="@+id/splash_layout"
     android:background="@color/keremi">
@@ -16,13 +14,14 @@
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
     android:id="@+id/logo"/>
+
     <ProgressBar
        android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progress_bar"
-        />
+        android:id="@+id/progress_bar"/>
+
     <android.support.v7.widget.AppCompatTextView
         android:layout_below="@+id/progress_bar"
         android:layout_centerHorizontal="true"
@@ -36,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/creat_by_user" />
+        android:text="@string/create_by_user" />
 
 
 </RelativeLayout>

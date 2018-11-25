@@ -69,9 +69,9 @@ public class Position {
   @Expose
   private int accuracy;
 
-  @SerializedName("network")
+  /*@SerializedName("network")
   @Expose
-  private String network;
+  private String network;*/
 
 
   public int getId() {
@@ -194,11 +194,4 @@ public class Position {
     this.accuracy = accuracy;
   }
 
-  public String getNetwork() {
-    return network;
-  }
-
-  public void setNetwork(String network) {
-    this.network = network;
-  }
 }

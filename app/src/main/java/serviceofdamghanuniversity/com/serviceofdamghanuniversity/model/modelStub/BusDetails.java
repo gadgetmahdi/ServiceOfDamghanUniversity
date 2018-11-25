@@ -1,17 +1,25 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class BusDetails {
 
+  private int busId;
   private String name;
   private String detail;
-  private BitmapDescriptor icon;
+  private int iconId;
   private String driverName;
   private int speed;
   private LatLng latLng;
 
+  public int getBusId() {
+    return busId;
+  }
+
+  public void setBusId(int busId) {
+    this.busId = busId;
+  }
 
   public String getName() {
     return name;
@@ -29,12 +37,12 @@ public class BusDetails {
     this.detail = detail;
   }
 
-  public BitmapDescriptor getIcon() {
-    return icon;
+  public int getIconId() {
+    return iconId;
   }
 
-  public void setIcon(BitmapDescriptor icon) {
-    this.icon = icon;
+  public void setIconId(int iconId) {
+    this.iconId = iconId;
   }
 
   public String getDriverName() {

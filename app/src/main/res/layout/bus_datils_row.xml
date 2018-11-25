@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="5dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/linearLayoutBuses"
+    android:background="@color/details_row_background"
+    android:foreground="@drawable/ripple_list">
+
+    <ImageView
+        android:id="@+id/imgBus"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:adjustViewBounds="true"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/circular_background"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="5"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txtBusName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/details_row_text_color"
+            android:textSize="18sp"/>
+
+
+        <TextView
+            android:id="@+id/txtBusDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/details_row_details_text_color"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -3,6 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="details_row_ripple_color">#c8545454</color>
+    <color name="details_row_background">#96000000</color>
+    <color name="details_row_text_color">#ffffff</color>
+    <color name="details_row_details_text_color">#CFCFCF</color>
     <color name="keremi">#d8fcfb</color>
     <color name="blue">#16359c</color>
 </resources>

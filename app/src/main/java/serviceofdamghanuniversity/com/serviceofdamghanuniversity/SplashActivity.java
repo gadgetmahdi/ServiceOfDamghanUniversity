@@ -72,7 +72,7 @@ public class SplashActivity extends PermissionClass implements SaveTokenListener
   }
 
   private void openMainActivity() {
-    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+    Intent intent = new Intent(getApplicationContext(), MainActivityN.class);
     startActivity(intent);
     finish();
   }
