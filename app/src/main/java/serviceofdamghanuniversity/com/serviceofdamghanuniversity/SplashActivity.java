@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
-
-
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.PermissionHandler;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
@@ -18,12 +16,11 @@ public class SplashActivity extends PermissionClass implements SaveTokenListener
   private static final int SPLASH_DISPLAY_LENGTH = 1000;
   private String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
 
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
-
-
 
     tokenClass = TokenClass.getInstance(getApplicationContext(), this);
 
