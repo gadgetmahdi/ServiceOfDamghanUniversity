@@ -47,7 +47,7 @@ public class TokenClass {
       @Override
       public void onResponseToken(String token) {
         saveToken(parseToken(token));
-        saveTokenListener.savedToken();
+        saveTokenListener.savedToken(token);
       }
 
       @Override

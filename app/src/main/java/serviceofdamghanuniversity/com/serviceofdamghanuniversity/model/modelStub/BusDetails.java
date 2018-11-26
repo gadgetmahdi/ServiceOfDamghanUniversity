@@ -23,13 +23,6 @@ public class BusDetails {
     this.busLastUpdateTime = busLastUpdateTime;
   }
 
-  public boolean isBusIsOnline() {
-    return busIsOnline;
-  }
-
-  public void setBusIsOnline(boolean busIsOnline) {
-    this.busIsOnline = busIsOnline;
-  }
 
   public int getBusId() {
     return busId;

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,12 +29,11 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
   private BusAdapterSetOnClickListener busAdapterSetOnClickListener;
   private Context context;
 
-  public BusAdapter(Context context ,ArrayList<BusDetails> list, BusAdapterSetOnClickListener busAdapterSetOnClickListener) {
+  public BusAdapter(Context context, ArrayList<BusDetails> list, BusAdapterSetOnClickListener busAdapterSetOnClickListener) {
     this.context = context;
     this.list = list;
     this.busAdapterSetOnClickListener = busAdapterSetOnClickListener;
   }
-
 
 
   @NonNull
@@ -62,27 +59,19 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
     viewHolderWorkoutAdapter.txtBusName.setText(busDetails.getName());
     viewHolderWorkoutAdapter.txtBusDetails.setText(busDetails.getDetail());
 
-    if(busDetails.isBusIsOnline()) {
+    String busTime = busDetails.getBusLastUpdateTime();
+    if (isDeviceIsOnline(getDiffTime(busTime))) {
       viewHolderWorkoutAdapter.txtBusSituations.setText("Online");
       viewHolderWorkoutAdapter.txtBusSituations.setTextColor(context.getResources().getColor(R.color.bus_is_online));
       viewHolderWorkoutAdapter.txtBusUpdateTime.setVisibility(View.GONE);
       viewHolderWorkoutAdapter.txtBusSpeed.setVisibility(View.VISIBLE);
-      viewHolderWorkoutAdapter.txtBusSpeed.setText(busDetails.getSpeed()+ " km/h");
+      viewHolderWorkoutAdapter.txtBusSpeed.setText(busDetails.getSpeed() + " km/h");
       viewHolderWorkoutAdapter.txtBusSpeed.setTextColor(getSpeedColor(busDetails.getSpeed()));
-    }else {
+    } else {
       viewHolderWorkoutAdapter.txtBusSpeed.setVisibility(View.GONE);
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-      String timeString = busDetails.getBusLastUpdateTime();
-      try {
-        Date busTime = df.parse(timeString);
-        Date currentTime  = new Date();
-        Log.w("mehdiTest" , busTime + "    " + currentTime);
-        long timeDiff = currentTime.getTime() - busTime.getTime();
-        viewHolderWorkoutAdapter.txtBusUpdateTime.setVisibility(View.VISIBLE);
-        viewHolderWorkoutAdapter.txtBusUpdateTime.setText(calculateDiff(timeDiff));
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
+
+      viewHolderWorkoutAdapter.txtBusUpdateTime.setVisibility(View.VISIBLE);
+      viewHolderWorkoutAdapter.txtBusUpdateTime.setText(calculateDiff(getDiffTime(busTime)));
 
       viewHolderWorkoutAdapter.txtBusSituations.setTextColor(context.getResources().getColor(R.color.bus_is_offline));
       viewHolderWorkoutAdapter.txtBusSituations.setText("Offline");
@@ -100,20 +89,38 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
 
   }
 
-  private String calculateDiff(long timeDiff){
+  private long getDiffTime(String timeString) {
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    //
+    try {
+      Date busTime = df.parse(timeString);
+      Date currentTime = new Date();
+      return currentTime.getTime() - busTime.getTime();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+
+  private boolean isDeviceIsOnline(long diff) {
+    return diff >= 30000;
+  }
+
+  private String calculateDiff(long timeDiff) {
     long h = timeDiff / 3600000;
     long m = (timeDiff % 3600000) / 60000;
-    if(h != 0) {
+    if (h != 0) {
       return "(" + h + " hour/s " + m + " minutes" + " ago)";
-    }else {
+    } else {
       return "(" + m + " minutes" + " ago)";
     }
   }
 
-  private int getSpeedColor(double speed){
-    if(speed >= 50){
+  private int getSpeedColor(double speed) {
+    if (speed >= 50) {
       return context.getResources().getColor(R.color.bus_speed_is_more_than_normal);
-    }else {
+    } else {
       return context.getResources().getColor(R.color.bus_speed_is_normal);
     }
   }

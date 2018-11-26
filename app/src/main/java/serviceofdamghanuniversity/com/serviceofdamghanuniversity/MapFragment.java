@@ -374,12 +374,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
   private void setMapCamera(LatLng pos) {
-    CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
-    map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    if(pos != null && isMapLoaded) {
+      CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
+      map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
   }
 
   private void setMapCameraWithoutAnimation(LatLng pos) {
-    CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
-    map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    if(pos != null && isMapLoaded) {
+      CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
+      map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
   }
 }

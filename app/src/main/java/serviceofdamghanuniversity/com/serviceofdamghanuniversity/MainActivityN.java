@@ -6,11 +6,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Response;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
@@ -26,7 +24,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenCla
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
-public class MainActivityN extends PermissionClass implements ResponseListener.Session, LocationListener , BusFragment.BusIdCallBack{
+public class MainActivityN extends PermissionClass implements ResponseListener.Session, LocationListener, BusFragment.BusIdCallBack {
 
 
   public interface PositionsForMap {
@@ -35,6 +33,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     void onMyPositionsProvided(Location location);
 
     void onBusSelected(int busId);
+
   }
 
   public interface PositionsForBuses {
@@ -48,7 +47,6 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   public void setOnPositionsForBuses(PositionsForBuses positions) {
     mBusPositions = positions;
   }
-
 
 
   @BindView(R.id.viewpager)
@@ -98,11 +96,24 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     tokenDb = new TokenDb(this);
     if (tokenDb.checkIsShHaveData()) {
       Toast.makeText(this, "please wait until get data from server.", Toast.LENGTH_LONG).show();
-      webServiceCaller.createSession(tokenDb.getToken(), this);
-    }else {
+     // webServiceCaller.createSession(tokenDb.getToken(), this);
+      final Handler mHandler = new Handler();
+
+      Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+          getBusPositions();
+          if (isGetNewPosUpdate) {
+            mHandler.postDelayed(this, requestInterval);
+          }
+        }
+      };
+
+      mHandler.post(runnable);
+    } else {
       TokenClass.getInstance(getApplicationContext(), new SaveTokenListener() {
         @Override
-        public void savedToken() {
+        public void savedToken(String token) {
           webServiceCaller.createSession(tokenDb.getToken(), MainActivityN.this);
         }
 
@@ -151,6 +162,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
       @Override
       public void onResponseJson(Response<List<Position>> response) {
+
         List<Position> positions = response.body();
         listPositions.clear();
 
@@ -181,6 +193,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   }
 
 
+
   @Override
   public void onSessionCreated() {
     final Handler mHandler = new Handler();
@@ -199,7 +212,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   }
 
   @Override
-  public void onError(String error) {
+  public void onSessionError(String error) {
     Toast.makeText(this, "server not respond, " +
       "please try again later.", Toast.LENGTH_SHORT).show();
 
@@ -208,7 +221,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
   @Override
   public void onBusSelected(int busId) {
-    if(mPositions != null){
+    if (mPositions != null) {
       viewPager.setCurrentItem(0);
       mPositions.onBusSelected(busId);
     }
