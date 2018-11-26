@@ -156,14 +156,10 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
           if (mPositions != null) {
             mPositions.onBusPositionsProvided(listPositions);
-          }else {
-            Toast.makeText(MainActivityN.this, "null", Toast.LENGTH_SHORT).show();
           }
 
           if (mBusPositions != null) {
             mBusPositions.onBusPositionsProvided(listPositions);
-          }else {
-            Toast.makeText(MainActivityN.this, "bus null", Toast.LENGTH_SHORT).show();
           }
 
         } else {

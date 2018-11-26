@@ -278,7 +278,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map_type_FAB.show();
 
     LatLng selfPos = new LatLng(36.168917,54.323100);
-    setMapCamera(selfPos);
+    setMapCameraWithoutAnimation(selfPos);
 
     if (getActivity() != null) {
       if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -329,6 +329,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map.getUiSettings().setScrollGesturesEnabled(true);
     map.getUiSettings().setTiltGesturesEnabled(true);
     map.getUiSettings().setRotateGesturesEnabled(true);
+    map.getUiSettings().setMapToolbarEnabled(false);
 
     if (getActivity() != null) {
       map.setMapStyle(
@@ -375,5 +376,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   private void setMapCamera(LatLng pos) {
     CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
     map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+  }
+
+  private void setMapCameraWithoutAnimation(LatLng pos) {
+    CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
+    map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
   }
 }
