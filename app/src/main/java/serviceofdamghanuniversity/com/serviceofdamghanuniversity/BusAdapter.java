@@ -104,7 +104,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
 
 
   private boolean isDeviceIsOnline(long diff) {
-    return diff >= 30000;
+    return !(diff >= 30000);
   }
 
   private String calculateDiff(long timeDiff) {
