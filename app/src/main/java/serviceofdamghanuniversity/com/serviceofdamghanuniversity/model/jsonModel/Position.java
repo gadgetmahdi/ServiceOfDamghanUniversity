@@ -55,11 +55,11 @@ public class Position {
 
   @SerializedName("speed")
   @Expose
-  private int speed;
+  private double speed;
 
-  @SerializedName("course")
+  /*@SerializedName("course")
   @Expose
-  private int course;
+  private int course;*/
 
   @SerializedName("address")
   @Expose
@@ -162,21 +162,21 @@ public class Position {
     this.altitude = altitude;
   }
 
-  public int getSpeed() {
+  public double getSpeed() {
     return speed;
   }
 
-  public void setSpeed(int speed) {
+  public void setSpeed(double speed) {
     this.speed = speed;
   }
 
-  public int getCourse() {
+ /* public int getCourse() {
     return course;
   }
 
   public void setCourse(int course) {
     this.course = course;
-  }
+  }*/
 
   public String getAddress() {
     return address;

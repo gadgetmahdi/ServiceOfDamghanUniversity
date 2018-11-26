@@ -94,8 +94,11 @@ public class BusFragment extends Fragment {
     busDetailsList.clear();
 
     for (Position position : listPositions) {
-      recyclerViewBuses.setVisibility(View.VISIBLE);
-
+      try {
+        recyclerViewBuses.setVisibility(View.VISIBLE);
+      }catch (Exception e){
+        e.printStackTrace();
+      }
       BusDetails busDetails = BusDetailsHelper.parseBusDetails(getActivity(), position);
 
       busDetailsList.add(busDetails);
