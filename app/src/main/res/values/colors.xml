@@ -10,4 +10,13 @@
     <color name="details_row_details_text_color">#CFCFCF</color>
     <color name="keremi">#d8fcfb</color>
     <color name="blue">#16359c</color>
+
+    <color name="bus_is_online">#4caf50</color>
+    <color name="bus_speed_is_normal">#4caf50</color>
+    <color name="bus_is_offline">#ef5350</color>
+    <color name="bus_speed_is_more_than_normal">#ef5350</color>
+
+
+
+
 </resources>

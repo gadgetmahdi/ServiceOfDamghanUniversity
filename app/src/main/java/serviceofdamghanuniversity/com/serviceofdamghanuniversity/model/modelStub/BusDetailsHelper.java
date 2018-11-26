@@ -23,6 +23,8 @@ public class BusDetailsHelper {
         busDetails.setDetail("only for girls student.");
         busDetails.setDriverName("peter jackson");
         busDetails.setSpeed(position.getSpeed());
+        busDetails.setBusIsOnline(!position.isOutdated());
+        busDetails.setBusLastUpdateTime(position.getDeviceTime());
         busDetails.setLatLng(new LatLng(position.getLatitude(), position.getLongitude()));
         busDetails.setIconId(R.drawable.ic_bus_green);
         break;

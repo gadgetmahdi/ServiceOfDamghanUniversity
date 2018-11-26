@@ -104,7 +104,7 @@ public class WebServiceCaller {
     json.enqueue(new Callback<List<Position>>() {
       @Override
       public void onResponse(@NonNull Call<List<Position>> call, @NonNull Response<List<Position>> response) {
-          Log.w("MehdiTest13", response.toString()+"");
+         // Log.w("MehdiTest13", response.toString()+"");
        // Log.w("MehdiTest13", response.headers()+"");
         //Log.w("MehdiTest13", response.raw().headers()+"");
         jsonResponse.onResponseJson(response);
@@ -114,6 +114,7 @@ public class WebServiceCaller {
       @Override
       public void onFailure(@NonNull Call<List<Position>> call, @NonNull Throwable t) {
 
+        Log.w("MehdiTest13", t.toString()+"");
         jsonResponse.onError(t.getMessage());
 
       }

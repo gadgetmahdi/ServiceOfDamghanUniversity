@@ -62,7 +62,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   private boolean permissionReturn;
   private PositionsForMap mPositions;
   private PositionsForBuses mBusPositions;
-  private final static int requestInterval = 10000;
+  private final static int requestInterval = 5000;
   private TokenDb tokenDb;
   private String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
 

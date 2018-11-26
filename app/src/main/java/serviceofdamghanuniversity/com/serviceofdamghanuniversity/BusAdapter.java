@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetails;
 
@@ -57,6 +62,32 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
     viewHolderWorkoutAdapter.txtBusName.setText(busDetails.getName());
     viewHolderWorkoutAdapter.txtBusDetails.setText(busDetails.getDetail());
 
+    if(busDetails.isBusIsOnline()) {
+      viewHolderWorkoutAdapter.txtBusSituations.setText("Online");
+      viewHolderWorkoutAdapter.txtBusSituations.setTextColor(context.getResources().getColor(R.color.bus_is_online));
+      viewHolderWorkoutAdapter.txtBusUpdateTime.setVisibility(View.GONE);
+      viewHolderWorkoutAdapter.txtBusSpeed.setVisibility(View.VISIBLE);
+      viewHolderWorkoutAdapter.txtBusSpeed.setText(busDetails.getSpeed()+ " km/h");
+      viewHolderWorkoutAdapter.txtBusSpeed.setTextColor(getSpeedColor(busDetails.getSpeed()));
+    }else {
+      viewHolderWorkoutAdapter.txtBusSpeed.setVisibility(View.GONE);
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+      String timeString = busDetails.getBusLastUpdateTime();
+      try {
+        Date busTime = df.parse(timeString);
+        Date currentTime  = new Date();
+        Log.w("mehdiTest" , busTime + "    " + currentTime);
+        long timeDiff = currentTime.getTime() - busTime.getTime();
+        viewHolderWorkoutAdapter.txtBusUpdateTime.setVisibility(View.VISIBLE);
+        viewHolderWorkoutAdapter.txtBusUpdateTime.setText(calculateDiff(timeDiff));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+
+      viewHolderWorkoutAdapter.txtBusSituations.setTextColor(context.getResources().getColor(R.color.bus_is_offline));
+      viewHolderWorkoutAdapter.txtBusSituations.setText("Offline");
+    }
+
     Drawable drawable = ContextCompat.getDrawable(context, busDetails.getIconId());
     viewHolderWorkoutAdapter.imgBus.setImageDrawable(drawable);
 
@@ -67,6 +98,24 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
       }
     });
 
+  }
+
+  private String calculateDiff(long timeDiff){
+    long h = timeDiff / 3600000;
+    long m = (timeDiff % 3600000) / 60000;
+    if(h != 0) {
+      return "(" + h + " hour/s " + m + " minutes" + " ago)";
+    }else {
+      return "(" + m + " minutes" + " ago)";
+    }
+  }
+
+  private int getSpeedColor(double speed){
+    if(speed >= 50){
+      return context.getResources().getColor(R.color.bus_speed_is_more_than_normal);
+    }else {
+      return context.getResources().getColor(R.color.bus_speed_is_normal);
+    }
   }
 
   @Override
@@ -80,6 +129,9 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
 
     private TextView txtBusName;
     private TextView txtBusDetails;
+    private TextView txtBusSituations;
+    private TextView txtBusUpdateTime;
+    private TextView txtBusSpeed;
 
     private ImageView imgBus;
 
@@ -89,6 +141,9 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
       txtBusName = itemView.findViewById(R.id.txtBusName);
       txtBusDetails = itemView.findViewById(R.id.txtBusDetails);
       imgBus = itemView.findViewById(R.id.imgBus);
+      txtBusSituations = itemView.findViewById(R.id.txtBusSituations);
+      txtBusUpdateTime = itemView.findViewById(R.id.txtBusUpdateTime);
+      txtBusSpeed = itemView.findViewById(R.id.txtBusSpeed);
     }
   }
 }

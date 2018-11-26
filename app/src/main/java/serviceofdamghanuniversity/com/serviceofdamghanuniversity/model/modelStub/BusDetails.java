@@ -6,12 +6,30 @@ import com.google.android.gms.maps.model.LatLng;
 public class BusDetails {
 
   private int busId;
+  private boolean busIsOnline;
+  private String busLastUpdateTime;
   private String name;
   private String detail;
   private int iconId;
   private String driverName;
-  private int speed;
+  private double speed;
   private LatLng latLng;
+
+  public String getBusLastUpdateTime() {
+    return busLastUpdateTime;
+  }
+
+  public void setBusLastUpdateTime(String busLastUpdateTime) {
+    this.busLastUpdateTime = busLastUpdateTime;
+  }
+
+  public boolean isBusIsOnline() {
+    return busIsOnline;
+  }
+
+  public void setBusIsOnline(boolean busIsOnline) {
+    this.busIsOnline = busIsOnline;
+  }
 
   public int getBusId() {
     return busId;
@@ -53,11 +71,11 @@ public class BusDetails {
     this.driverName = driverName;
   }
 
-  public int getSpeed() {
+  public double getSpeed() {
     return speed;
   }
 
-  public void setSpeed(int speed) {
+  public void setSpeed(double speed) {
     this.speed = speed;
   }
 

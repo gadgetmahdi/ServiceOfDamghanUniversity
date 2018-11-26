@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
@@ -21,6 +22,8 @@ public class SplashActivity extends Activity implements SaveTokenListener {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
 
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    
     tokenClass = TokenClass.getInstance(getApplicationContext(), this);
 
     if (tokenClass.createNewTokenIfIsNotExist()) {

@@ -50,7 +50,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.BitmapTo
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
-  @BindView(R.id.floatingActionButton)
+  @BindView(R.id.fabMyLocation)
   FloatingActionButton floatingActionButton;
 
   @BindView(R.id.map_type_FAB)
@@ -165,7 +165,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     unbinder.unbind();
   }
 
-  @OnClick(R.id.floatingActionButton)
+  @OnClick(R.id.fabMyLocation)
   public void floatingActionButton() {
     if (myLocation != null) {
       LatLng pos = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
@@ -224,10 +224,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
           }
         }, 100);
         animator.start();
-        map_type_FAB.show();
 
 
+      }else {
+        Toast.makeText(getActivity(), "this", Toast.LENGTH_SHORT).show();
+        map_type_selection.setVisibility(View.VISIBLE);
       }
+
     }
 
 
@@ -271,6 +274,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     isMapLoaded = true;
     map = googleMap;
     setSettingForMap(map);
+
+    map_type_FAB.show();
 
     LatLng selfPos = new LatLng(36.168917,54.323100);
     setMapCamera(selfPos);
@@ -336,6 +341,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     if (mListPositions.size() > 0) {
 
       hmBusIdAndPos.clear();
+      map.clear();
 
       for (Position position : mListPositions) {
         BusDetails busDetails = BusDetailsHelper.parseBusDetails(getActivity(), position);
