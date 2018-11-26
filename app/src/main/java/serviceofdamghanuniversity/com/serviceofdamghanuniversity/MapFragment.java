@@ -353,7 +353,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String driverName = busDetails.getDriverName();
         int iconId = busDetails.getIconId();
         BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
-          BitmapToVectorDrawable.getVectorDrawable(getActivity(), iconId));
+                BitmapToVectorDrawable.getVectorDrawable(getActivity(), iconId));
 
         hmBusIdAndPos.put(busId, pos);
 
@@ -366,7 +366,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }*/
 
         MarkerOptions markerOptions = new MarkerOptions().title(name)
-          .snippet(details).position(pos).icon(icon);
+                .snippet(details).position(pos).icon(icon);
         map.addMarker(markerOptions);
       }
     }

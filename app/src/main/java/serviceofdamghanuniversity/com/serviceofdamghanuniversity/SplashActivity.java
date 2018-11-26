@@ -17,20 +17,21 @@ public class SplashActivity extends Activity implements SaveTokenListener {
   private static final int SPLASH_DISPLAY_LENGTH = 1000;
 
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_splash);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     
     tokenClass = TokenClass.getInstance(getApplicationContext(), this);
 
-    if (tokenClass.createNewTokenIfIsNotExist()) {
-      showSplash();
+        if (tokenClass.createNewTokenIfIsNotExist()) {
+            showSplash();
+        }
+
     }
 
-  }
 
 
 
