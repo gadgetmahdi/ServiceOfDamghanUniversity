@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
+import co.ronash.pushe.Pushe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
     new LocationManagerHelper(this, this);
 
+    Pushe.initialize(this,true);
 
     
 

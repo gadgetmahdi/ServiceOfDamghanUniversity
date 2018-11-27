@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
-import com.onesignal.OneSignal;
 
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
-
 
 
     deviceDb = new DeviceDb();
