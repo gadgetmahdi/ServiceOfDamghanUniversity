@@ -27,7 +27,7 @@ public class BusDetailsHelper {
     //busDetails.setBusIsOnline(!position.isOutdated());
     busDetails.setBusLastUpdateTime(position.getDeviceTime());
     busDetails.setLatLng(new LatLng(position.getLatitude(), position.getLongitude()));
-    busDetails.setIconId(R.drawable.ic_bus_green);
+    busDetails.setIconId(R.drawable.bus);
 
     return busDetails;
   }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayoutBuses"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:background="@color/details_row_background"
+    android:background="@color/blue_200"
     android:clickable="true"
     android:focusable="true"
     android:foreground="@drawable/ripple_list"
@@ -66,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="green bus"
-                android:textColor="@color/details_row_text_color"
+                android:textColor="@color/red_800"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -76,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="only for girls"
-                android:textColor="@color/details_row_details_text_color"/>
+                android:textColor="@color/deep_orange_700"/>
 
         </LinearLayout>
 

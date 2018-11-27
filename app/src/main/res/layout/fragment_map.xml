@@ -30,6 +30,19 @@
         app:elevation="4dp"
         app:srcCompat="@drawable/ic_location"/>
 
+    <Button
+        android:id="@+id/btn_lateservice"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@color/grey_800"
+        android:text="@string/late_service"
+        android:textColor="@color/brown_100"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:elevation="4dp"
+        android:layout_margin="5dp"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/map_type_FAB"

@@ -2,6 +2,7 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +92,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   @BindView(R.id.map_type_terrain_text)
   TextView map_type_terrain_text;
 
+  @BindView(R.id.btn_lateservice)
+  Button button;
 
   private GoogleMap map;
   private ArrayList<Position> mListPositions = new ArrayList<>();
@@ -106,7 +111,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     View view = inflater.inflate(R.layout.fragment_map, container, false);
 
     unbinder = ButterKnife.bind(this, view);
-
 
     if (getActivity() != null) {
       ((MainActivityN) getActivity()).setOnPosition(new MainActivityN.PositionsForMap() {
@@ -152,7 +156,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     return view;
   }
-
 
   @Override
   public void onDestroyView() {
@@ -268,6 +271,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map_type_terrain_text.setTextColor(Color.BLUE);
     map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
   }
+//takhorclick
+  @OnClick(R.id.btn_lateservice)
+  public void onButtonClick(){
+    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+    emailIntent.setType("plain/text");
+    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"mahdigadget20@gmail.com"});
+    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
+    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,R.string.txt_late_service);
+
+    getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+  }
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
@@ -375,14 +389,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
   private void setMapCamera(LatLng pos) {
     if(pos != null && isMapLoaded) {
-      CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
+      CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
       map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
   }
 
   private void setMapCameraWithoutAnimation(LatLng pos) {
     if(pos != null && isMapLoaded) {
-      CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(18).build();
+      CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
       map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
   }
