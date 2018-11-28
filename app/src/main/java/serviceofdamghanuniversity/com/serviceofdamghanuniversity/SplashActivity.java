@@ -57,11 +57,6 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
       webServiceCaller.createSession(tokenDb.getToken(), this);
     }
 
-    new AppUpdater(this)
-      .setDisplay(Display.DIALOG)
-      .setUpdateFrom(UpdateFrom.JSON)
-      .setUpdateJSON("https://github.com/gadgetmahdi/ServiceOfDamghanUniversity/blob/master/update-changelog.json")
-      .start();
 
   }
 

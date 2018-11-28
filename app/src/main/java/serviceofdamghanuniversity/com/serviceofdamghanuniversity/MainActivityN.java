@@ -96,6 +96,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     drawerLayout.addDrawerListener(toggle);
     toggle.syncState();
 
+    checkForUpdate();
 
     setSupportActionBar(toolbar);
 
@@ -127,12 +128,8 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
             return true;
           case R.id.nav_check_update:
 
-            new AppUpdater(MainActivityN.this)
-              .setDisplay(Display.DIALOG)
-              .setUpdateFrom(UpdateFrom.JSON)
-              .setUpdateJSON("https://github.com/gadgetmahdi/ServiceOfDamghanUniversity/blob/master/update-changelog.json")
-              .start();
-            
+            checkForUpdate();
+
             drawerLayout.closeDrawers();
             return true;
 
@@ -193,6 +190,15 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     }
   }
 
+
+  private void checkForUpdate(){
+
+    new AppUpdater(MainActivityN.this)
+      .setDisplay(Display.DIALOG)
+      .setUpdateFrom(UpdateFrom.JSON)
+      .setUpdateJSON("https://raw.githubusercontent.com/gadgetmahdi/ServiceOfDamghanUniversity/master/update-changelog.json")
+      .start();
+  }
 
   private void sendIssue() {
     final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);

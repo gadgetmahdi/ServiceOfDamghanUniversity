@@ -17,7 +17,7 @@
             android:title="report"/>
         <item
             android:id="@+id/nav_check_update"
-            android:icon="@drawable/ic_report_24dp"
+            android:icon="@drawable/ic_update_24dp"
             android:title="check for update"/>
 
 
