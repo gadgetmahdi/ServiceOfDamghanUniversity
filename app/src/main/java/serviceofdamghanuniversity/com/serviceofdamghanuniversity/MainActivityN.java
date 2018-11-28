@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
+import co.ronash.pushe.Pushe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
     new LocationManagerHelper(this, this);
 
+    Pushe.initialize(this,true);
 
     
 
@@ -95,7 +97,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
     tokenDb = new TokenDb(this);
     if (tokenDb.checkIsShHaveData()) {
-      Toast.makeText(this, "please wait until get data from server.", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, R.string.get_location, Toast.LENGTH_LONG).show();
      // webServiceCaller.createSession(tokenDb.getToken(), this);
       final Handler mHandler = new Handler();
 
@@ -179,14 +181,14 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
         } else {
           isGetNewPosUpdate = false;
-          Toast.makeText(MainActivityN.this, "no data available.", Toast.LENGTH_SHORT).show();
+          Toast.makeText(MainActivityN.this,R.string.nodata, Toast.LENGTH_SHORT).show();
         }
       }
 
 
       @Override
       public void onError(String error) {
-        Toast.makeText(MainActivityN.this, "server error." + error, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivityN.this, R.string.server_err + error, Toast.LENGTH_LONG).show();
         isGetNewPosUpdate = false;
       }
     });
@@ -213,8 +215,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
   @Override
   public void onSessionError(String error) {
-    Toast.makeText(this, "server not respond, " +
-      "please try again later.", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this,R.string.servernotfond, Toast.LENGTH_SHORT).show();
 
   }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:id="@+id/splash_layout"
-    android:background="@color/keremi">
+    android:background="@color/light_blue_50">
 
 <android.support.v7.widget.AppCompatImageView
     android:background="@drawable/logo"
@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/create_by_user" />
+        android:text="@string/create_by_user"
+        android:textSize="10dp"/>
 
 
 </RelativeLayout>
