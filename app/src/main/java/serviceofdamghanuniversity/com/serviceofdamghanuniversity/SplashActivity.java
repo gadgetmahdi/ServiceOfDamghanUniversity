@@ -2,11 +2,16 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 
+
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -51,6 +56,12 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
 
       webServiceCaller.createSession(tokenDb.getToken(), this);
     }
+
+    new AppUpdater(this)
+      .setDisplay(Display.DIALOG)
+      .setUpdateFrom(UpdateFrom.JSON)
+      .setUpdateJSON("https://github.com/gadgetmahdi/ServiceOfDamghanUniversity/blob/master/update-changelog.json")
+      .start();
 
   }
 

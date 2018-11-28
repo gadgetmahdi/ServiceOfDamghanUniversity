@@ -11,7 +11,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
-                onesignal_app_id:'a925f9f1-88da-4c51-bb8f-0ed59235174d',
+                onesignal_app_id               : 'a925f9f1-88da-4c51-bb8f-0ed59235174d',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
@@ -24,9 +24,16 @@ android {
     }
 }
 
+
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 buildscript {
     repositories {
-        maven { url 'https://plugins.gradle.org/m2/'}
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.1'
@@ -57,4 +64,5 @@ dependencies {
     implementation 'com.j256.ormlite:ormlite-core:4.48'
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.onesignal:OneSignal:3.10.3'
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
 }

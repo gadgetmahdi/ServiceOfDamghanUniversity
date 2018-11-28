@@ -14,5 +14,14 @@
     <string name="server_err">سرور ارور:</string>
     <string name="late_service">گزارش شکایت</string>
     <string name="bus_details">سرویس فنی</string>
+    <string name="nav_open">open</string>
+    <string name="nav_close">close</string>
     <string name="txt_late_service">لطفا متن شکایت خود را همراه با توضیحات و سرویس مورد نظر وارد کنید.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">آذر 97</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

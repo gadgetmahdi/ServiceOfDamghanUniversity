@@ -91,8 +91,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   @BindView(R.id.map_type_terrain_text)
   TextView map_type_terrain_text;
 
-  @BindView(R.id.btn_lateservice)
-  Button button;
 
   private GoogleMap map;
   private ArrayList<Position> mListPositions = new ArrayList<>();
@@ -266,19 +264,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
   }
 
-//takhorclick
-  @OnClick(R.id.btn_lateservice)
-  public void onButtonClick(){
-    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-    emailIntent.setType("plain/text");
-    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"mahdigadget20@gmail.com"});
-    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
-    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,R.string.txt_late_service);
-
-    if(getActivity() != null) {
-      getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-    }
-  }
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
