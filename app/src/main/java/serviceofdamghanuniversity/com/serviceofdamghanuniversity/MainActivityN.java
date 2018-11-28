@@ -8,15 +8,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
-import co.ronash.pushe.Pushe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import co.ronash.pushe.Pushe;
 import retrofit2.Response;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
@@ -75,10 +74,6 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
 
     new LocationManagerHelper(this, this);
-
-    Pushe.initialize(this,true);
-
-    
 
 
 

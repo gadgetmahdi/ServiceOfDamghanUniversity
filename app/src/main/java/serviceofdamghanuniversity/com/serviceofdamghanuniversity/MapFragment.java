@@ -34,7 +34,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,9 +98,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   private ArrayList<Position> mListPositions = new ArrayList<>();
   private Unbinder unbinder;
   private Location myLocation;
-  private boolean isSetCameraToMyLocation = false;
   private boolean isMapLoaded = false;
-  private int busIdSelected = -1;
   private Map<Integer, LatLng> hmBusIdAndPos = new HashMap<>();
 
   @Override
@@ -131,8 +128,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onBusSelected(int busId) {
-          busIdSelected = busId;
-          isSetCameraToMyLocation = false;
           if (isMapLoaded) {
             setMapCamera(hmBusIdAndPos.get(busId));
           }
@@ -176,7 +171,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
       CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(15).build();
       map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-      isSetCameraToMyLocation = true;
     }
   }
 
@@ -187,7 +181,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     if (map_type_selection.getVisibility() == View.INVISIBLE) {
 
       // Start animator close and finish at the FAB position
-      Animator animator = null;
+      Animator animator;
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
         animator = ViewAnimationUtils.createCircularReveal(map_type_selection,
           map_type_selection.getWidth() - (map_type_FAB.getWidth() / 2),
@@ -271,6 +265,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map_type_terrain_text.setTextColor(Color.BLUE);
     map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
   }
+
 //takhorclick
   @OnClick(R.id.btn_lateservice)
   public void onButtonClick(){
@@ -280,7 +275,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
     emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,R.string.txt_late_service);
 
-    getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    if(getActivity() != null) {
+      getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
   }
 
   @Override
@@ -364,7 +361,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String name = busDetails.getName();
         int busId = busDetails.getBusId();
         String details = busDetails.getDetail();
-        String driverName = busDetails.getDriverName();
+        //String driverName = busDetails.getDriverName();
         int iconId = busDetails.getIconId();
         BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
                 BitmapToVectorDrawable.getVectorDrawable(getActivity(), iconId));

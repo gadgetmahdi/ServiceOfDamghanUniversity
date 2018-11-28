@@ -3,6 +3,7 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.module;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -21,8 +22,8 @@ public class BitmapToVectorDrawable {
     Bitmap bitmap = null;
 
     if (drawable != null) {
-      bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-        drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+      bitmap = Bitmap.createBitmap(95,
+        126, Bitmap.Config.ARGB_8888);
       Canvas canvas = new Canvas(bitmap);
       drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
       drawable.draw(canvas);

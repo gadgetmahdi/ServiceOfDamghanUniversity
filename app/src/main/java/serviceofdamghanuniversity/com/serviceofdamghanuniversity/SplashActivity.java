@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 
 import java.util.List;
 
+import co.ronash.pushe.Pushe;
 import io.realm.Realm;
 import retrofit2.Response;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
@@ -36,11 +36,12 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
 
+    Pushe.initialize(this , true);
+
 
     deviceDb = new DeviceDb();
     Realm.init(getApplicationContext());
     realm = Realm.getDefaultInstance();
-    Log.w("mehdiTest" , deviceDb.getSizeOfDb(realm) + "");
 
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
@@ -77,7 +78,6 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
 
       @Override
       public void onResponseDevice(Response<List<Devices>> response) {
-        Log.w("MehdiTestV", response.toString() + "");
 
         List<Devices> devices = response.body();
         if (devices != null) {
@@ -91,8 +91,6 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
 
       @Override
       public void onError(String error) {
-        Log.w("MehdiTest191", error + "");
-
         showSplash();
       }
     });
@@ -126,13 +124,11 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
 
   @Override
   public void onSessionCreated() {
-    Log.w("MehdiTest193", "Meh");
     getDevices();
   }
 
   @Override
   public void onSessionError(String error) {
-    Log.w("MehdiTest192", error + "");
     showSplash();
   }
 }

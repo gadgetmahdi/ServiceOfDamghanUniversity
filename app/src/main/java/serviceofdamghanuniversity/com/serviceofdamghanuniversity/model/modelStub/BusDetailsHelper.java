@@ -1,7 +1,6 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -21,7 +20,7 @@ public class BusDetailsHelper {
 
     busDetails.setBusId(position.getDeviceId());
     busDetails.setName(findNameById(context, busId));
-    busDetails.setDetail("only for girls student.");
+    busDetails.setDetail(context.getString(R.string.bus_details));
     busDetails.setDriverName("peter jackson");
     busDetails.setSpeed(position.getSpeed());
     //busDetails.setBusIsOnline(!position.isOutdated());
@@ -36,13 +35,10 @@ public class BusDetailsHelper {
     DeviceDb deviceDb = new DeviceDb();
     Realm.init(context);
     Realm realm = Realm.getDefaultInstance();
-    Log.w("MehdiTest19", deviceId + "");
 
     if (deviceDb.getRowWithId(realm, deviceId) != null) {
-      Log.w("MehdiTest19", deviceId + "");
       return deviceDb.getRowWithId(realm, deviceId).getName();
     } else {
-      Log.w("MehdiTest19",  "null");
       return "";
     }
 

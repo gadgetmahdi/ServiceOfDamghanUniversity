@@ -66,8 +66,7 @@
                 android:id="@+id/txtBusName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="green bus"
-                android:textColor="@color/red_800"
+                android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -76,8 +75,7 @@
                 android:id="@+id/txtBusDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="only for girls"
-                android:textColor="@color/deep_orange_700"/>
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 

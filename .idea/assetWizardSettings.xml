@@ -65,9 +65,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_location" />
-                            <entry key="sourceFile" value="C:\Users\Mehdi\Desktop\bus-side-view.svg" />
+                            <entry key="outputName" value="ic_buses" />
+                            <entry key="sourceFile" value="C:\Users\Mehdi\Desktop\buses.psd" />
                           </map>
                         </option>
                       </PersistentState>

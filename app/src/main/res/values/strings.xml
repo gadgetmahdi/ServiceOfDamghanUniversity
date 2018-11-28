@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">Damghan University Services(DUS)</string>
+    <string name="bus_is_online">Online</string>
+    <string name="bus_is_offline">Offline</string>
     <string name="title_activity_maps">Map</string>
+    <string name="bus_speed">%.1f  km/h</string>
     <string name="servernotfond">سرور در دسترس نیست،لطفا بعدا تلاش کنید</string>
     <string name="not_location">موقعیت شما در دسترس نیست</string>
     <string name="get_location">در حال دریافت اطلاعات از سرور</string>
     <string name="nodata">هیچ اطلاعاتی در دسترس نیست</string>
     <string name="serverـerror">خطا در دریافت اطلاعات از سرور</string>
     <string name="creat_by">کاری از انجمن علمی مهندسی کامپیوتر دانشگاه دامغان</string>
-    <string name="create_by_user">power by M.vije and M.gadget</string>
+    <string name="create_by_user">developed by M.Vijeh and M.Gadget</string>
     <string name="server_err">سرور ارور:</string>
     <string name="late_service">گزارش شکایت</string>
+    <string name="bus_details">سرویس فنی</string>
     <string name="txt_late_service">لطفا متن شکایت خود را همراه با توضیحات و سرویس مورد نظر وارد کنید.</string>
 </resources>
