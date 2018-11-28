@@ -182,7 +182,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
       @Override
       public void onError(String error) {
-        Toast.makeText(MainActivityN.this, R.string.server_err + error, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivityN.this, R.string.server_err , Toast.LENGTH_LONG).show();
         isGetNewPosUpdate = false;
       }
     });
