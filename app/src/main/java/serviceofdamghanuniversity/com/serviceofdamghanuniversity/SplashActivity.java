@@ -8,16 +8,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 
 
+import java.sql.SQLException;
 import java.util.List;
 
-import co.ronash.pushe.Pushe;
-import io.realm.Realm;
 import retrofit2.Response;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.DeviceDb;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.DbHelper;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.DeviceNDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
@@ -27,21 +27,16 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
   private TokenClass tokenClass;
   private static final int SPLASH_DISPLAY_LENGTH = 1000;
   private WebServiceCaller webServiceCaller;
-  private DeviceDb deviceDb;
-  private Realm realm;
-
+  private DbHelper dbHelper;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
 
-    Pushe.initialize(this , true);
 
+    dbHelper = new DbHelper(this);
 
-    deviceDb = new DeviceDb();
-    Realm.init(getApplicationContext());
-    realm = Realm.getDefaultInstance();
 
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
@@ -82,7 +77,8 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
         List<Devices> devices = response.body();
         if (devices != null) {
           for (Devices device : devices) {
-           deviceDb.save(device);
+            // deviceDb.save(device);
+            saveDeviceOnDb(device);
           }
         }
 
@@ -97,6 +93,19 @@ public class SplashActivity extends Activity implements SaveTokenListener, Respo
 
   }
 
+
+  private void saveDeviceOnDb(Devices device) {
+    DeviceNDb deviceNDb = new DeviceNDb();
+    deviceNDb.setId(device.getId());
+    deviceNDb.setName(device.getName());
+    deviceNDb.setCategory(device.getCategory());
+
+    try {
+      dbHelper.createOrUpdate(deviceNDb);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
   @Override
   public void error() {

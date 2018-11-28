@@ -14,7 +14,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import co.ronash.pushe.Pushe;
 import retrofit2.Response;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;

@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import io.realm.Realm;
+import java.sql.SQLException;
+
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.DeviceDb;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.DbHelper;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.DeviceNDb;
 
 public class BusDetailsHelper {
 
@@ -32,17 +34,14 @@ public class BusDetailsHelper {
   }
 
   private static String findNameById(Context context, int deviceId) {
-    DeviceDb deviceDb = new DeviceDb();
-    Realm.init(context);
-    Realm realm = Realm.getDefaultInstance();
-
-    if (deviceDb.getRowWithId(realm, deviceId) != null) {
-      return deviceDb.getRowWithId(realm, deviceId).getName();
-    } else {
-      return "";
+    DbHelper dbHelper = new DbHelper(context);
+    try {
+      DeviceNDb deviceNDb = dbHelper.getById(deviceId);
+      return deviceNDb.getName();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-
-
+    return "";
   }
 
 }
