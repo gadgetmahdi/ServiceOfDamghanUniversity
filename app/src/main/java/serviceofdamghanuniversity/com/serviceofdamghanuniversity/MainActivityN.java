@@ -92,6 +92,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     setContentView(R.layout.activity_main_n);
     ButterKnife.bind(this);
 
+
     toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
     drawerLayout.addDrawerListener(toggle);
     toggle.syncState();
