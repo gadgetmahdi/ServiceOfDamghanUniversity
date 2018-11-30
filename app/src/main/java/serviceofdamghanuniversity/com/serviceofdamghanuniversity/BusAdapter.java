@@ -58,13 +58,23 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
 
   private void setValue(ViewHolderBusAdapter viewHolderWorkoutAdapter, final BusDetails busDetails) {
     viewHolderWorkoutAdapter.txtBusName.setText(busDetails.getName());
-    viewHolderWorkoutAdapter.txtBusDetails.setText(busDetails.getDetail());
+
+    if(!busDetails.getDetail().equals("")) {
+      viewHolderWorkoutAdapter.txtBusDetails.setText(busDetails.getDetail());
+    }
 
     String busTime = busDetails.getBusLastUpdateTime();
-    if (isDeviceIsOnline(getDiffTime(busTime))) {
-      setValueForOnlineBuses(context, viewHolderWorkoutAdapter, busDetails);
-    } else {
-      setValueForOfflineBuses(context, viewHolderWorkoutAdapter, busTime);
+
+    switch (busDetails.getBusStatus()) {
+      case "online":
+        setValueForOnlineBuses(context, viewHolderWorkoutAdapter, busDetails);
+        break;
+      case "offline":
+        setValueForOfflineBuses(context, viewHolderWorkoutAdapter, busTime);
+        break;
+      default:
+        setValueForUnknownBuses(context, viewHolderWorkoutAdapter);
+        break;
     }
 
     Drawable drawable = ContextCompat.getDrawable(context, busDetails.getIconId());
@@ -105,6 +115,17 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
 
   }
 
+  private static void setValueForUnknownBuses(Context context, ViewHolderBusAdapter viewHolderWorkoutAdapter) {
+    viewHolderWorkoutAdapter.txtBusSpeed.setVisibility(View.GONE);
+    viewHolderWorkoutAdapter.txtBusUpdateTime.setVisibility(View.GONE);
+
+    viewHolderWorkoutAdapter.txtBusSituations.setTextColor(context.getResources().getColor(R.color.bus_is_offline));
+    viewHolderWorkoutAdapter.txtBusName.setTextColor(context.getResources().getColor(R.color.bus_is_offline));
+    viewHolderWorkoutAdapter.txtBusDetails.setTextColor(context.getResources().getColor(R.color.bus_is_offline));
+    viewHolderWorkoutAdapter.txtBusSituations.setText(context.getString(R.string.bus_is_offline));
+
+  }
+
   private static long getDiffTime(String timeString) {
     Locale locale = new Locale("fa_ ");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", locale);
@@ -120,17 +141,17 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
   }
 
 
-  private boolean isDeviceIsOnline(long diff) {
+  /*private boolean isDeviceIsOnline(long diff) {
     return !(diff >= 30000);
-  }
+  }*/
 
   private static String calculateDiff(long timeDiff) {
     long h = timeDiff / 3600000;
     long m = (timeDiff % 3600000) / 60000;
     if (h != 0) {
-      return "(" + h + " hour/s " + m + " minutes" + " ago)";
+      return "(" + h + " ساعت " + m + " دقیقه" + " پیش)";
     } else {
-      return "(" + m + " minutes" + " ago)";
+      return "(" + m + " دقیقه" + " پیش)";
     }
   }
 

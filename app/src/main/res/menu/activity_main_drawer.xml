@@ -6,19 +6,19 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map_24dp"
-            android:title="map"/>
+            android:title="@string/map"/>
         <item
             android:id="@+id/nav_buses"
             android:icon="@drawable/ic_bus_24dp"
-            android:title="buses"/>
+            android:title="@string/buses"/>
         <item
             android:id="@+id/nav_report"
             android:icon="@drawable/ic_report_24dp"
-            android:title="report"/>
+            android:title="@string/report"/>
         <item
             android:id="@+id/nav_check_update"
             android:icon="@drawable/ic_update_24dp"
-            android:title="check for update"/>
+            android:title="@string/check_for_update"/>
 
 
 </menu>

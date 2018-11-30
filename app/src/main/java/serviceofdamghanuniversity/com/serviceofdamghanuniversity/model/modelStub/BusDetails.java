@@ -14,6 +14,23 @@ public class BusDetails {
   private String driverName;
   private double speed;
   private LatLng latLng;
+  private String busStatus;
+
+  public boolean isBusIsOnline() {
+    return busIsOnline;
+  }
+
+  public void setBusIsOnline(boolean busIsOnline) {
+    this.busIsOnline = busIsOnline;
+  }
+
+  public String getBusStatus() {
+    return busStatus;
+  }
+
+  public void setBusStatus(String busStatus) {
+    this.busStatus = busStatus;
+  }
 
   public String getBusLastUpdateTime() {
     return busLastUpdateTime;

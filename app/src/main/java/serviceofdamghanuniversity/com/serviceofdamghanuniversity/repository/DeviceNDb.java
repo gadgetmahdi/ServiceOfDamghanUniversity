@@ -15,6 +15,9 @@ public class DeviceNDb {
   @DatabaseField(columnName = "category")
   private String category;
 
+  @DatabaseField(columnName = "status")
+  private String status;
+
 
   public int getId() {
     return id;
@@ -38,5 +41,14 @@ public class DeviceNDb {
 
   public void setCategory(String category) {
     this.category = category;
+  }
+
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 }

@@ -18,6 +18,10 @@ public class Devices {
   @Expose
   private String name;
 
+  @SerializedName("status")
+  @Expose
+  private String status;
+
 
   public int getId() {
     return id;
@@ -41,5 +45,13 @@ public class Devices {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 }

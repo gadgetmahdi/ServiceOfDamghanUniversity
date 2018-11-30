@@ -341,29 +341,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
       map.clear();
 
       for (Position position : mListPositions) {
-        BusDetails busDetails = BusDetailsHelper.parseBusDetails(getActivity(), position);
-        LatLng pos = busDetails.getLatLng();
-        String name = busDetails.getName();
-        int busId = busDetails.getBusId();
-        String details = busDetails.getDetail();
-        //String driverName = busDetails.getDriverName();
-        int iconId = busDetails.getIconId();
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
-                BitmapToVectorDrawable.getVectorDrawable(getActivity(), iconId));
+        if (getActivity() != null) {
+          BusDetails busDetails = BusDetailsHelper.parseBusDetails(getActivity(), position);
+          LatLng pos = busDetails.getLatLng();
+          String name = busDetails.getName();
+          int busId = busDetails.getBusId();
 
-        hmBusIdAndPos.put(busId, pos);
-
-        /*if (!isSetCameraToMyLocation) {
-          if (busId == busIdSelected) {
-            setMapCamera(pos);
-          } else if (busIdSelected == -1) {
-            //setMapCamera(pos);
+          String details = null;
+          if(busDetails.getDetail() != null) {
+            details = busDetails.getDetail();
           }
-        }*/
+          //String driverName = busDetails.getDriverName();
+          int iconId = busDetails.getIconId();
+          BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
+            BitmapToVectorDrawable.getVectorDrawable(getActivity(), iconId));
 
-        MarkerOptions markerOptions = new MarkerOptions().title(name)
-                .snippet(details).position(pos).icon(icon);
-        map.addMarker(markerOptions);
+          hmBusIdAndPos.put(busId, pos);
+
+
+          MarkerOptions markerOptions = new MarkerOptions().title(name)
+            .snippet(details).position(pos).icon(icon);
+          map.addMarker(markerOptions);
+        }
       }
     }
   }

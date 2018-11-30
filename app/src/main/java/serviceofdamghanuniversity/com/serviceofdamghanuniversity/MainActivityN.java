@@ -1,13 +1,26 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
+import android.Manifest;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +33,8 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
+import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +47,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.PermissionHandler;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.TokenClass;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDbHelper;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
 public class MainActivityN extends PermissionClass implements ResponseListener.Session, LocationListener, BusFragment.BusIdCallBack {
@@ -74,7 +90,6 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   @BindView(R.id.navigation)
   NavigationView navigation;
 
-
   WebServiceCaller webServiceCaller;
   private ArrayList<Position> listPositions = new ArrayList<>();
   private boolean isGetNewPosUpdate = true;
@@ -82,9 +97,11 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   private PositionsForMap mPositions;
   private PositionsForBuses mBusPositions;
   private final static int requestInterval = 5000;
-  private TokenDb tokenDb;
+  private TokenDbHelper tokenDb;
   private String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
   private ActionBarDrawerToggle toggle;
+  private boolean isShowInternetError = false;
+  private boolean isPermissionRequestSend = false;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,7 +146,11 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
             return true;
           case R.id.nav_check_update:
 
-            checkForUpdate();
+            if (CheckInternet.isNetworkConnected(MainActivityN.this)) {
+              checkForUpdate();
+            } else {
+              showSnackForInternetConnection();
+            }
 
             drawerLayout.closeDrawers();
             return true;
@@ -142,7 +163,17 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     });
 
 
-    new LocationManagerHelper(this, this);
+    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+      ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+      new LocationManagerHelper(this, this);
+    } else {
+      if (!isPermissionRequestSend) {
+        if (requestPermission()) {
+          new LocationManagerHelper(this, this);
+        }
+        isPermissionRequestSend = true;
+      }
+    }
 
 
 
@@ -159,56 +190,188 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     webServiceCaller = WebServiceCaller.getInstance();
 
 
-    tokenDb = new TokenDb(this);
-    if (tokenDb.checkIsShHaveData()) {
-      Toast.makeText(this, R.string.get_location, Toast.LENGTH_LONG).show();
-      // webServiceCaller.createSession(tokenDb.getToken(), this);
-      final Handler mHandler = new Handler();
+    tokenDb = new TokenDbHelper(this);
+    try {
+      if (tokenDb.getToken() != null) {
 
-      Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-          getBusPositions();
-          if (isGetNewPosUpdate) {
-            mHandler.postDelayed(this, requestInterval);
+        Toast.makeText(this, R.string.get_location, Toast.LENGTH_LONG).show();
+        // webServiceCaller.createSession(tokenDb.getToken(), this);
+        final Handler mHandler = new Handler();
+
+        Runnable runnable = new Runnable() {
+          @Override
+          public void run() {
+            if (CheckInternet.isNetworkConnected(MainActivityN.this)) {
+              getBusPositions();
+            } else {
+              if (!isShowInternetError) {
+                showSnackForInternetConnection();
+                isShowInternetError = true;
+              }
+            }
+            if (isGetNewPosUpdate) {
+              mHandler.postDelayed(this, requestInterval);
+            }
           }
-        }
-      };
+        };
 
-      mHandler.post(runnable);
-    } else {
-      TokenClass.getInstance(getApplicationContext(), new SaveTokenListener() {
+        mHandler.post(runnable);
+      } else {
+        TokenClass.getInstance(getApplicationContext(), new SaveTokenListener() {
+          @Override
+          public void savedToken(String token) {
+            try {
+              TokenDb tokenDatabase = new TokenDb();
+              tokenDatabase.setId(0);
+              tokenDatabase.setToken(parseToken(token));
+              tokenDb.createOrUpdate(tokenDatabase);
+              webServiceCaller.createSession(token, MainActivityN.this);
+
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+
+          @Override
+          public void error() {
+
+          }
+        });
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private String parseToken(String token) {
+    String[] url = token.split("=");
+    return url[url.length - 1];
+  }
+
+
+  private void showSnackForInternetConnection() {
+
+    Snackbar.make(drawerLayout, getString(R.string.internet_problem), Snackbar.LENGTH_LONG)
+      .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+      .show();
+
+  }
+
+  private void checkForUpdate() {
+
+    final AppUpdater appUpdater = new AppUpdater(MainActivityN.this)
+      .setDisplay(Display.DIALOG)
+      .setUpdateFrom(UpdateFrom.GITHUB)
+      .setGitHubUserAndRepo("gadgetmahdi", "ServiceOfDamghanUniversity")
+      .setButtonDoNotShowAgain("")
+      .setTitleOnUpdateAvailable(getString(R.string.update_available))
+      .setContentOnUpdateAvailable(getString(R.string.update_available_content))
+      .setTitleOnUpdateNotAvailable(getString(R.string.update_not_available))
+      .setContentOnUpdateNotAvailable(getString(R.string.update_not_available_content))
+      .setButtonUpdate(getString(R.string.update_download))
+      .setButtonDismiss(getString(R.string.update_cancel))
+      .setButtonUpdateClickListener(new DialogInterface.OnClickListener() {
         @Override
-        public void savedToken(String token) {
-          webServiceCaller.createSession(tokenDb.getToken(), MainActivityN.this);
-        }
-
-        @Override
-        public void error() {
-
+        public void onClick(DialogInterface dialogInterface, int i) {
+          checkPermissionAndGoToDownload();
         }
       });
+
+    appUpdater.start();
+  }
+
+  private void checkPermissionAndGoToDownload() {
+    int MyVersion = Build.VERSION.SDK_INT;
+    if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+      if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        == PackageManager.PERMISSION_GRANTED) {
+        downloadUpdateAndGoToInstall();
+      } else {
+        requestPermissionForWriteExternal();
+      }
+
+
+    } else {
+      downloadUpdateAndGoToInstall();
     }
   }
 
 
-  private void checkForUpdate(){
+  private void requestPermissionForWriteExternal() {
+    ActivityCompat.requestPermissions(MainActivityN.this,
+      new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+      10256);
+  }
 
-    new AppUpdater(MainActivityN.this)
-      .setDisplay(Display.DIALOG)
-      .setUpdateFrom(UpdateFrom.JSON)
-      .setUpdateJSON("https://raw.githubusercontent.com/gadgetmahdi/ServiceOfDamghanUniversity/master/update-changelog.json")
-      .start();
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         @NonNull String permissions[], @NonNull int[] grantResults) {
+    switch (requestCode) {
+      case 10256: {
+        if (grantResults.length > 0
+          && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          downloadUpdateAndGoToInstall();
+        }
+      }
+
+    }
+  }
+
+  private void downloadUpdateAndGoToInstall() {
+    Toast.makeText(this, getString(R.string.start_download_update), Toast.LENGTH_SHORT).show();
+    String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
+    String fileName = "App.apk";
+    destination += fileName;
+
+    //Delete update file if exists
+    File file = new File(destination);
+
+    if (file.exists())
+      //file.delete() - test this, I think sometimes it doesnt work
+      file.delete();
+
+    //get url of app on server
+    String url = this.getString(R.string.update_app_url);
+
+    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+    request.setDescription(getString(R.string.start_download_title));
+    request.setTitle(this.getString(R.string.app_name));
+
+    final Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider" , file);
+    //set destination
+    request.setDestinationUri(uri);
+
+    // get download service and enqueue file
+    final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+    final long downloadId = manager.enqueue(request);
+
+
+    //set BroadcastReceiver to install app when .apk is downloaded
+    BroadcastReceiver onComplete = new BroadcastReceiver() {
+      public void onReceive(Context ctxt, Intent intent) {
+        Intent intentN = new Intent(Intent.ACTION_VIEW);
+        intentN.setDataAndType(uri ,   manager.getMimeTypeForDownloadedFile(downloadId));
+        intentN.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
+        startActivity(intent);
+
+
+        unregisterReceiver(this);
+        finish();
+      }
+    };
+    //register receiver for when .apk download is compete
+    registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
   }
 
   private void sendIssue() {
     final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
     emailIntent.setType("plain/text");
     emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"mahdigadget20@gmail.com"});
-    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "گزارش تخلف سرویس");
+    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.report_a_problem));
     emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, R.string.txt_late_service);
 
-    startActivity(Intent.createChooser(emailIntent, "report issues"));
+    startActivity(Intent.createChooser(emailIntent, getString(R.string.report_a_problem)));
   }
 
   @Override
@@ -223,8 +386,8 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
     BusFragment busFragment = new BusFragment();
     busFragment.setBusIdCallBack(this);
-    adapter.addFragment(new MapFragment(), "Map");
-    adapter.addFragment(busFragment, "Buses");
+    adapter.addFragment(new MapFragment(), getString(R.string.map));
+    adapter.addFragment(busFragment, getString(R.string.buses));
     viewPager.setAdapter(adapter);
   }
 
@@ -272,7 +435,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
         } else {
           isGetNewPosUpdate = false;
-          Toast.makeText(MainActivityN.this, R.string.nodata, Toast.LENGTH_SHORT).show();
+          Toast.makeText(MainActivityN.this, R.string.no_data, Toast.LENGTH_SHORT).show();
         }
       }
 
@@ -305,7 +468,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
   @Override
   public void onSessionError(String error) {
-    Toast.makeText(this, R.string.servernotfond, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, R.string.server_not_fund, Toast.LENGTH_SHORT).show();
 
   }
 

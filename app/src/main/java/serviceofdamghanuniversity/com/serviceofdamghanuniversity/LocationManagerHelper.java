@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 
 public class LocationManagerHelper implements android.location.LocationListener {
@@ -15,7 +14,6 @@ public class LocationManagerHelper implements android.location.LocationListener 
   private final static long MIN_TIME_BW_UPDATES = 2000;
   private final static float MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
   private MainActivityN activity;
-  private boolean isPermissionRequestSend = false;
   private boolean isGpsEnabled, isNetworkEnabled;
   private LocationListener myLocationListener;
 
@@ -47,13 +45,6 @@ public class LocationManagerHelper implements android.location.LocationListener 
         locationManager.requestLocationUpdates(android.location.LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
       } else {
         locationManager.requestLocationUpdates(android.location.LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-      }
-    } else {
-      if (!isPermissionRequestSend) {
-        if (activity.requestPermission()) {
-          createListenerForGpsOrNet();
-        }
-        isPermissionRequestSend = true;
       }
     }
   }

@@ -95,11 +95,14 @@ public class BusFragment extends Fragment {
       }catch (Exception e){
         e.printStackTrace();
       }
-      BusDetails busDetails = BusDetailsHelper.parseBusDetails(getActivity(), position);
+      if(getActivity() != null) {
+        BusDetails busDetails = BusDetailsHelper.parseBusDetails(getActivity(), position);
+        busDetailsList.add(busDetails);
 
-      busDetailsList.add(busDetails);
+        busAdapter.notifyDataSetChanged();
 
-      busAdapter.notifyDataSetChanged();
+      }
+
 
     }
 

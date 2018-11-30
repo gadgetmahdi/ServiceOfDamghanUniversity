@@ -56,7 +56,7 @@ public class WebServiceCaller {
     session.enqueue(new Callback<User>() {
       @Override
       public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-        Log.w("MehdiTest13", response.toString() + "");
+        Log.w("mehdiVijeh", response.toString() + "");
         responseSession.onSessionCreated();
       }
 
@@ -131,6 +131,7 @@ public class WebServiceCaller {
     json.enqueue(new Callback<List<Devices>>() {
       @Override
       public void onResponse(@NonNull Call<List<Devices>> call, @NonNull Response<List<Devices>> response) {
+        Log.w("mehdiVijeh", " mvn"  + response);
         deviceResponse.onResponseDevice(response);
 
       }
