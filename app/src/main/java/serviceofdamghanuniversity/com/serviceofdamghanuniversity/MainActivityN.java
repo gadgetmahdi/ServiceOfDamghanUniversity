@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -338,7 +339,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     }
 
     ActivityCompat.requestPermissions(this,
-      new String[] {
+      new String[]{
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
       }, 12); // your request code
@@ -360,56 +361,75 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   }*/
 
   private void downloadUpdateAndGoToInstall() {
-    Toast.makeText(this, getString(R.string.start_download_update), Toast.LENGTH_SHORT).show();
-    String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-    String fileName = "App.apk";
-    destination += fileName;
+    try {
+      Toast.makeText(this, getString(R.string.start_download_update), Toast.LENGTH_SHORT).show();
+      String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
+      String fileName = "App.apk";
+      destination += fileName;
 
-    final File file = new File(destination);
-
-
-    if (file.exists())
-      file.delete();
+      final File file = new File(destination);
 
 
-    //get url of app on server
-    String url = this.getString(R.string.update_app_url);
-
-    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-    request.setDescription(getString(R.string.start_download_title));
-    request.setTitle(this.getString(R.string.app_name));
-
-    //final Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider" , file);
-    final Uri uri = Uri.parse("file://" + destination);
-
-    //set destination
-    request.setDestinationUri(uri);
-
-    // get download service and enqueue file
-    final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-    final long downloadId = manager.enqueue(request);
+      if (file.exists())
+        file.delete();
 
 
-    //set BroadcastReceiver to install app when .apk is downloaded
-    BroadcastReceiver onComplete = new BroadcastReceiver() {
-      public void onReceive(Context ctxt, Intent intent) {
-        /*Intent intentN = new Intent(Intent.ACTION_VIEW);
-        intentN.setDataAndType(uri ,   manager.getMimeTypeForDownloadedFile(downloadId));
-        intent.setData(Uri.parse("package:" + getPackageName()));
-        intentN.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);*/
+      //get url of app on server
+      String url = this.getString(R.string.update_app_url);
 
-        Intent promptInstall = new Intent(Intent.ACTION_VIEW);
-        promptInstall.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        promptInstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(promptInstall);
+      DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+      request.setDescription(getString(R.string.start_download_title));
+      request.setTitle(this.getString(R.string.app_name));
 
-        unregisterReceiver(this);
-        finish();
+      //final Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider" , file);
+      //final Uri uri = Uri.parse("file://" + destination);
+
+      final Uri uri;
+      if (Build.VERSION.SDK_INT >= 24) {
+        Uri uriDes = Uri.parse("file://" + destination);
+        request.setDestinationUri(uriDes);
+        uri = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", file);
+      } else {
+        uri = Uri.parse("file://" + destination);
+        request.setDestinationUri(uri);
       }
-    };
-    //register receiver for when .apk download is compete
-    registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+
+      // get download service and enqueue file
+      final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+      final long downloadId = manager.enqueue(request);
+
+
+      Log.w("mehdiVijeh n", uri.getPath() + "");
+
+
+      //set BroadcastReceiver to install app when .apk is downloaded
+      final String finalDestination = destination;
+      BroadcastReceiver onComplete = new BroadcastReceiver() {
+        public void onReceive(Context ctxt, Intent intent) {
+         /* Intent intentN = new Intent(Intent.ACTION_VIEW);
+          intentN.setDataAndType(uri, manager.getMimeTypeForDownloadedFile(downloadId));
+          intent.setData(Uri.parse("package:" + getPackageName()));
+          intentN.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          startActivity(intent);
+          unregisterReceiver(this);*/
+
+          Intent promptInstall = new Intent(Intent.ACTION_VIEW);
+          promptInstall.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+          promptInstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          intent.setDataAndType(uri, manager.getMimeTypeForDownloadedFile(downloadId));
+          startActivity(promptInstall);
+
+          unregisterReceiver(this);
+
+        }
+      };
+      //register receiver for when .apk download is compete
+      registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    } catch (Exception e) {
+      Log.w("mehdiVijeh", e.getMessage() + "");
+
+    }
   }
 
   private void sendIssue() {
