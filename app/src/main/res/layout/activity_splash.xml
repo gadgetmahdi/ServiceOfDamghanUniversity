@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:id="@+id/splash_layout"
-    android:background="@color/light_blue_50">
+    android:background="@color/colorPrimary">
 
 <android.support.v7.widget.AppCompatImageView
     android:background="@drawable/logo"
@@ -20,6 +20,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+       android:theme="@style/Progressbar.Theme"
         android:id="@+id/progress_bar"/>
 
     <android.support.v7.widget.AppCompatTextView

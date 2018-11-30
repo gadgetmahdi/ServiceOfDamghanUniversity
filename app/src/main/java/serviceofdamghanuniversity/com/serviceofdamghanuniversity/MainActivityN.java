@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,11 +21,13 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -34,6 +37,11 @@ import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -283,11 +291,12 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   private void checkPermissionAndGoToDownload() {
     int MyVersion = Build.VERSION.SDK_INT;
     if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-      if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        == PackageManager.PERMISSION_GRANTED) {
+      if (hasReadPermissions() && hasWritePermissions()) {
+
         downloadUpdateAndGoToInstall();
       } else {
-        requestPermissionForWriteExternal();
+        requestAppPermissions();
+        //requestPermissionForWriteExternal();
       }
 
 
@@ -308,9 +317,10 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   public void onRequestPermissionsResult(int requestCode,
                                          @NonNull String permissions[], @NonNull int[] grantResults) {
     switch (requestCode) {
-      case 10256: {
+      case 12: {
         if (grantResults.length > 0
-          && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          && grantResults[0] == PackageManager.PERMISSION_GRANTED
+          && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
           downloadUpdateAndGoToInstall();
         }
       }
@@ -318,18 +328,49 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     }
   }
 
+  private void requestAppPermissions() {
+    if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+      return;
+    }
+
+    if (hasReadPermissions() && hasWritePermissions()) {
+      return;
+    }
+
+    ActivityCompat.requestPermissions(this,
+      new String[] {
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+      }, 12); // your request code
+  }
+
+  private boolean hasReadPermissions() {
+    return (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+  }
+
+  private boolean hasWritePermissions() {
+    return (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+  }
+
+ /* private void downloadUpdateAndGoToInstall(){
+    UpdateApp atualizaApp = new UpdateApp();
+    atualizaApp.setContext(getApplicationContext());
+    String url = this.getString(R.string.update_app_url);
+    atualizaApp.execute(url);
+  }*/
+
   private void downloadUpdateAndGoToInstall() {
     Toast.makeText(this, getString(R.string.start_download_update), Toast.LENGTH_SHORT).show();
     String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
     String fileName = "App.apk";
     destination += fileName;
 
-    //Delete update file if exists
-    File file = new File(destination);
+    final File file = new File(destination);
+
 
     if (file.exists())
-      //file.delete() - test this, I think sometimes it doesnt work
       file.delete();
+
 
     //get url of app on server
     String url = this.getString(R.string.update_app_url);
@@ -338,7 +379,9 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     request.setDescription(getString(R.string.start_download_title));
     request.setTitle(this.getString(R.string.app_name));
 
-    final Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider" , file);
+    //final Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider" , file);
+    final Uri uri = Uri.parse("file://" + destination);
+
     //set destination
     request.setDestinationUri(uri);
 
@@ -350,11 +393,16 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     //set BroadcastReceiver to install app when .apk is downloaded
     BroadcastReceiver onComplete = new BroadcastReceiver() {
       public void onReceive(Context ctxt, Intent intent) {
-        Intent intentN = new Intent(Intent.ACTION_VIEW);
+        /*Intent intentN = new Intent(Intent.ACTION_VIEW);
         intentN.setDataAndType(uri ,   manager.getMimeTypeForDownloadedFile(downloadId));
-        intentN.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
-        startActivity(intent);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        intentN.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);*/
 
+        Intent promptInstall = new Intent(Intent.ACTION_VIEW);
+        promptInstall.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        promptInstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(promptInstall);
 
         unregisterReceiver(this);
         finish();
@@ -488,6 +536,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
       mPositions.onMyPositionsProvided(location);
     }
   }
+
 
 }
 

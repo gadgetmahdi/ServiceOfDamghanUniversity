@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Damghan University Services(DUS)</string>
+    <string name="app_name">DUS</string>
     <string name="bus_is_online">متصل</string>
     <string name="bus_is_offline">عدم اتصال</string>
     <string name="title_activity_maps">Map</string>
@@ -27,7 +27,7 @@
     <string name="nav_header_subtitle">آذر 97</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="update_app_url">https://raw.githubusercontent.com/gadgetmahdi/ServiceOfDamghanUniversity/master/app.apk</string>
+    <string name="update_app_url">http://raw.githubusercontent.com/gadgetmahdi/ServiceOfDamghanUniversity/master/app.apk</string>
     <string name="map">نقشه</string>
     <string name="buses">اتوبوس ها</string>
     <string name="report">گزارش تخلف</string>

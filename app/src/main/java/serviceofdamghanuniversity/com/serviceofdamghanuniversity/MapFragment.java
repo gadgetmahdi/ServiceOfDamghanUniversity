@@ -236,9 +236,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map_type_default_background.setVisibility(View.VISIBLE);
     map_type_satellite_background.setVisibility(View.INVISIBLE);
     map_type_terrain_background.setVisibility(View.INVISIBLE);
-    map_type_default_text.setTextColor(Color.BLUE);
-    map_type_satellite_text.setTextColor(Color.parseColor("#808080"));
-    map_type_terrain_text.setTextColor(Color.parseColor("#808080"));
+    map_type_default_text.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+    map_type_satellite_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+    map_type_terrain_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
     map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
   }
 
@@ -247,9 +247,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map_type_default_background.setVisibility(View.INVISIBLE);
     map_type_satellite_background.setVisibility(View.VISIBLE);
     map_type_terrain_background.setVisibility(View.INVISIBLE);
-    map_type_default_text.setTextColor(Color.parseColor("#808080"));
-    map_type_satellite_text.setTextColor(Color.BLUE);
-    map_type_terrain_text.setTextColor(Color.parseColor("#808080"));
+    map_type_satellite_text.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+    map_type_default_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+    map_type_terrain_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
     map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
   }
 
@@ -258,9 +258,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     map_type_default_background.setVisibility(View.INVISIBLE);
     map_type_satellite_background.setVisibility(View.INVISIBLE);
     map_type_terrain_background.setVisibility(View.VISIBLE);
-    map_type_default_text.setTextColor(Color.parseColor("#808080"));
-    map_type_satellite_text.setTextColor(Color.parseColor("#808080"));
-    map_type_terrain_text.setTextColor(Color.BLUE);
+    map_type_terrain_text.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
+    map_type_default_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+    map_type_satellite_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
     map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
   }
 
@@ -288,17 +288,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     switch (map.getMapType()) {
       case GoogleMap.MAP_TYPE_SATELLITE:
         map_type_satellite_background.setVisibility(View.VISIBLE);
-        map_type_satellite_text.setTextColor(Color.BLUE);
+        map_type_satellite_text.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
         break;
 
       case GoogleMap.MAP_TYPE_TERRAIN:
         map_type_terrain_background.setVisibility(View.VISIBLE);
-        map_type_terrain_text.setTextColor(Color.BLUE);
+        map_type_terrain_text.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
         break;
 
       default:
         map_type_default_background.setVisibility(View.VISIBLE);
-        map_type_default_text.setTextColor(Color.BLUE);
+        map_type_default_text.setTextColor(getActivity().getResources().getColor(R.color.colorAccent));
         break;
     }
 

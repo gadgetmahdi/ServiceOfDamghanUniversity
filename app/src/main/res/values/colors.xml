@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#F3E5F5</color>
+    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorAccent">#7B1FA2</color>
+
+
+    <color name="color_row">#EDE7F6</color>
 
     <color name="details_row_ripple_color">#c8545454</color>
     <color name="details_row_background">#96000000</color>
@@ -13,8 +16,8 @@
 
     <color name="bus_is_online">#4caf50</color>
     <color name="bus_speed_is_normal">#4caf50</color>
-    <color name="bus_is_offline">#ef5350</color>
-    <color name="bus_speed_is_more_than_normal">#ef5350</color>
+    <color name="bus_is_offline">#f44336</color>
+    <color name="bus_speed_is_more_than_normal">#f44336</color>
 
 
 
