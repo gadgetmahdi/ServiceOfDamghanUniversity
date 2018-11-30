@@ -400,8 +400,6 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
       final long downloadId = manager.enqueue(request);
 
 
-      Log.w("mehdiVijeh n", uri.getPath() + "");
-
 
       //set BroadcastReceiver to install app when .apk is downloaded
       final String finalDestination = destination;
@@ -414,11 +412,18 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
           startActivity(intent);
           unregisterReceiver(this);*/
 
-          Intent promptInstall = new Intent(Intent.ACTION_VIEW);
+         /* Intent promptInstall = new Intent(Intent.ACTION_VIEW);
           promptInstall.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
           promptInstall.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           intent.setDataAndType(uri, manager.getMimeTypeForDownloadedFile(downloadId));
-          startActivity(promptInstall);
+          startActivity(promptInstall);*/
+
+
+          Intent i = new Intent(Intent.ACTION_VIEW);
+          i.setDataAndType(Uri.fromFile(new File(finalDestination)), "application/vnd.android.package-archive");
+          i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
+          startActivity(i);
+
 
           unregisterReceiver(this);
 
