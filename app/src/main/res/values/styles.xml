@@ -14,12 +14,29 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
+
+    <style name="ProgressBar"> parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@color/colorAccent</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="Progressbar.Theme" parent="AppTheme">
-        <item name="colorControlActivated">@color/colorAccent</item>
+
+
+<!--
+
+    <style name="Theme.White" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/blue_900</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="nav_header_center_color">@color/nav_header_center</item>
+        <item name="nav_header_end_color">@color/nav_header_end</item>
+        <item name="nav_header_start_color">@color/nav_header_start_color</item>
     </style>
+-->
+
 
 </resources>

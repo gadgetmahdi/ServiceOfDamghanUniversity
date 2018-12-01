@@ -19,6 +19,10 @@
     <color name="bus_is_offline">#f44336</color>
     <color name="bus_speed_is_more_than_normal">#f44336</color>
 
+    <color name="nav_header_center">#F3E5F5</color>
+    <color name="nav_header_end">#CE93D8</color>
+    <color name="nav_header_start">#F3E5F5</color>
+
 
 
 

@@ -203,7 +203,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
     try {
       if (tokenDb.getToken() != null) {
 
-        Toast.makeText(this, R.string.get_location, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, R.string.get_location, Toast.LENGTH_LONG).show();
         // webServiceCaller.createSession(tokenDb.getToken(), this);
         final Handler mHandler = new Handler();
 
@@ -362,7 +362,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
   private void downloadUpdateAndGoToInstall() {
     try {
-      Toast.makeText(this, getString(R.string.start_download_update), Toast.LENGTH_SHORT).show();
+     // Toast.makeText(this, getString(R.string.start_download_update), Toast.LENGTH_SHORT).show();
       String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
       String fileName = "App.apk";
       destination += fileName;
@@ -388,8 +388,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
       if (Build.VERSION.SDK_INT >= 24) {
         Uri uriDes = Uri.parse("file://" + destination);
         request.setDestinationUri(uriDes);
-        uri = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", file);
-      } else {
+        } else {
         uri = Uri.parse("file://" + destination);
         request.setDestinationUri(uri);
       }
@@ -420,7 +419,12 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
 
           Intent i = new Intent(Intent.ACTION_VIEW);
-          i.setDataAndType(Uri.fromFile(new File(finalDestination)), "application/vnd.android.package-archive");
+          if (Build.VERSION.SDK_INT >= 24) {
+            Uri uri = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", file);
+            i.setDataAndType(uri, "application/vnd.android.package-archive");
+          }else {
+            i.setDataAndType(Uri.fromFile(new File(finalDestination)), "application/vnd.android.package-archive");
+          }
           i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
           startActivity(i);
 
