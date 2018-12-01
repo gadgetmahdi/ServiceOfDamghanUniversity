@@ -12,7 +12,11 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -50,6 +54,7 @@ public class SplashActivity extends AppCompatActivity implements SaveTokenListen
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_splash);
 
+    StartAnimations();
 
     IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
     registerReceiver(new NetworkChangeReceiver(), intentFilter);
@@ -174,6 +179,32 @@ public class SplashActivity extends AppCompatActivity implements SaveTokenListen
     finish();
   }
 
+   private void StartAnimations() {
+     Animation anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+     anim.reset();
+     TextView iv = (TextView) findViewById(R.id.txt_developer);
+     iv.clearAnimation();
+     iv.startAnimation(anim);
+
+     anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+     anim.reset();
+     TextView ib = (TextView) findViewById(R.id.txt_create_by);
+     ib.clearAnimation();
+     ib.startAnimation(anim);
+
+     anim = AnimationUtils.loadAnimation(this, R.anim.top_to_down);
+     anim.reset();
+     ImageView im = (ImageView) findViewById(R.id.logo);
+     im.clearAnimation();
+     im.startAnimation(anim);
+
+     anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+     anim.reset();
+     ProgressBar pr = (ProgressBar) findViewById(R.id.progress_bar);
+     pr.clearAnimation();
+     pr.startAnimation(anim);
+
+   }
 
   @Override
   public void onSessionCreated() {
