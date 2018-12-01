@@ -437,11 +437,15 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   private void sendIssue() {
     final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
     emailIntent.setType("plain/text");
-    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"mahdigadget20@gmail.com"});
+
+    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"damghanservice@gmail.com"});
     emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.report_a_problem));
     emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, R.string.txt_late_service);
-
-    startActivity(Intent.createChooser(emailIntent, getString(R.string.report_a_problem)));
+    emailIntent.setPackage("com.google.android.gm");
+    if (emailIntent.resolveActivity(getPackageManager()) != null)
+      startActivity(Intent.createChooser(emailIntent, getString(R.string.report_a_problem)));
+    else
+      Toast.makeText(this, "Gmail App is not installed", Toast.LENGTH_SHORT).show();
   }
 
   @Override
