@@ -15,6 +15,10 @@
     </style>
 
 
+    <style name="AppTheme.ColorAccent">
+        <item name="colorAccent">@color/colorAccent</item> <!-- Whatever color you want-->
+    </style>
+
     <style name="ProgressBar"> parent="@android:style/Widget.ProgressBar">
         <item name="android:indeterminateDrawable">@color/colorAccent</item>
     </style>
