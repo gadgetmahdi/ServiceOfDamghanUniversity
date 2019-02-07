@@ -22,10 +22,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.clie
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.SessionInterface;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.TokenInterface;
 
-/**
- * create with mahdi gadget 11/2018
- * baraye initialize va....
- */
+
 public class WebServiceCaller {
 
   private static WebServiceCaller webServiceCaller = null;
@@ -56,13 +53,11 @@ public class WebServiceCaller {
     session.enqueue(new Callback<User>() {
       @Override
       public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-        Log.w("mehdiVijeh", response.toString() + "");
         responseSession.onSessionCreated();
       }
 
       @Override
       public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-        Log.w("MehdiTest11", t.toString());
         responseSession.onSessionError(t.getMessage());
       }
     });
@@ -92,7 +87,6 @@ public class WebServiceCaller {
 
       @Override
       public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-        Log.w("MehdiTest1", t.getMessage());
         tokenResponse.onError(t.getMessage());
       }
 
@@ -107,9 +101,6 @@ public class WebServiceCaller {
     json.enqueue(new Callback<List<Position>>() {
       @Override
       public void onResponse(@NonNull Call<List<Position>> call, @NonNull Response<List<Position>> response) {
-        Log.w("MehdiTest13", response.toString() + "");
-        Log.w("MehdiTest13", response.headers() + "");
-        Log.w("MehdiTest13", response.raw().headers() + "");
         jsonResponse.onResponseJson(response);
 
       }
@@ -117,7 +108,6 @@ public class WebServiceCaller {
       @Override
       public void onFailure(@NonNull Call<List<Position>> call, @NonNull Throwable t) {
 
-        Log.w("MehdiTest13", t.toString() + "");
         jsonResponse.onError(t.getMessage());
 
       }
@@ -131,7 +121,6 @@ public class WebServiceCaller {
     json.enqueue(new Callback<List<Devices>>() {
       @Override
       public void onResponse(@NonNull Call<List<Devices>> call, @NonNull Response<List<Devices>> response) {
-        Log.w("mehdiVijeh", " mvn"  + response);
         deviceResponse.onResponseDevice(response);
 
       }

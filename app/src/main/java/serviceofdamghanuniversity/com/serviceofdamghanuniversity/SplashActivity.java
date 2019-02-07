@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import retrofit2.Response;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.utile.NetworkChangeReceiver;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
@@ -254,11 +255,11 @@ public class SplashActivity extends AppCompatActivity implements SaveTokenListen
     dialog.show();
   }
 
-  @Subscribe(threadMode = ThreadMode.MAIN)
+ /* @Subscribe(threadMode = ThreadMode.MAIN)
   public void onEvent(NetworkChangeReceiver.NetworkEvent event) {
     tryAgainForInternetConnection();
   }
-
+*/
   public void tryAgainForInternetConnection() {
     if (dialog.isShowing())
       dialog.dismiss();

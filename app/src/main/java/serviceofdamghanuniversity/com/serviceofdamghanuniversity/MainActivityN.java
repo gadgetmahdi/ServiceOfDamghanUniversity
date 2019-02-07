@@ -37,12 +37,6 @@ import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
