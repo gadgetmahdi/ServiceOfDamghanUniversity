@@ -205,26 +205,26 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
 
         //Toast.makeText(this, R.string.get_location, Toast.LENGTH_LONG).show();
         // webServiceCaller.createSession(tokenDb.getToken(), this);
-        final Handler mHandler = new Handler();
+          final Handler mHandler = new Handler();
 
-        Runnable runnable = new Runnable() {
-          @Override
-          public void run() {
-            if (CheckInternet.isNetworkConnected(MainActivityN.this)) {
-              getBusPositions();
-            } else {
-              if (!isShowInternetError) {
-                showSnackForInternetConnection();
-                isShowInternetError = true;
+          Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+              if (CheckInternet.isNetworkConnected(MainActivityN.this)) {
+                getBusPositions();
+              } else {
+                if (!isShowInternetError) {
+                  showSnackForInternetConnection();
+                  isShowInternetError = true;
+                }
+              }
+              if (isGetNewPosUpdate) {
+                mHandler.postDelayed(this, requestInterval);
               }
             }
-            if (isGetNewPosUpdate) {
-              mHandler.postDelayed(this, requestInterval);
-            }
-          }
-        };
+          };
 
-        mHandler.post(runnable);
+          mHandler.post(runnable);
       } else {
         TokenClass.getInstance(getApplicationContext(), new SaveTokenListener() {
           @Override

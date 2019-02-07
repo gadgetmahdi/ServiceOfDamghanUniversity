@@ -65,7 +65,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
 
     String busTime = busDetails.getBusLastUpdateTime();
 
-    switch (busDetails.getBusStatus()) {
+   /* switch (busDetails.getBusStatus()) {
       case "online":
         setValueForOnlineBuses(context, viewHolderWorkoutAdapter, busDetails);
         break;
@@ -75,7 +75,13 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
       default:
         setValueForUnknownBuses(context, viewHolderWorkoutAdapter);
         break;
-    }
+    }*/
+
+   if(isDeviceIsOnline(getDiffTime(busTime))){
+     setValueForOnlineBuses(context, viewHolderWorkoutAdapter, busDetails);
+   }else {
+     setValueForOfflineBuses(context, viewHolderWorkoutAdapter, busTime);
+   }
 
     Drawable drawable = ContextCompat.getDrawable(context, busDetails.getIconId());
     viewHolderWorkoutAdapter.imgBus.setImageDrawable(drawable);
@@ -141,27 +147,28 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
   }
 
 
-  /*private boolean isDeviceIsOnline(long diff) {
+  private boolean isDeviceIsOnline(long diff) {
     return !(diff >= 30000);
-  }*/
+  }
 
   private static String calculateDiff(long timeDiff) {
     long h = timeDiff / 3600000;
     long m = (timeDiff % 3600000) / 60000;
     if (h != 0) {
-      return "(" + h + " ساعت " + m + " دقیقه" + " پیش)";
+      return "(" + h + " ساعت "  + "و "+ m + " دقیقه" + " پیش)";
     } else {
       return "(" + m + " دقیقه" + " پیش)";
     }
   }
 
   private static int getSpeedColor(Context context, double speed) {
-    if (speed >= 10) {
+    if (speed >= 50) {
       return context.getResources().getColor(R.color.bus_speed_is_more_than_normal);
     } else {
       return context.getResources().getColor(R.color.bus_speed_is_normal);
     }
   }
+
 
   @Override
   public int getItemCount() {

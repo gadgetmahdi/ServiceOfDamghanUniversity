@@ -35,8 +35,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -134,11 +138,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    mapView.onCreate(savedInstanceState);
+      mapView.onCreate(savedInstanceState);
 
-    mapView.onResume(); // needed to get the map to display immediately
+      mapView.onResume(); // needed to get the map to display immediately
 
-    mapView.getMapAsync(this);
+      mapView.getMapAsync(this);
 
     try {
       MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -352,7 +356,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             details = busDetails.getDetail();
           }
           //String driverName = busDetails.getDriverName();
-          int iconId = busDetails.getIconId();
+          String busTime = busDetails.getBusLastUpdateTime();
+
+          int iconId;
+          if(isDeviceIsOnline(getDiffTime(busTime))) {
+            iconId = busDetails.getIconId();
+          }else {
+            iconId = R.drawable.bus_offline;
+
+          }
+
           BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
             BitmapToVectorDrawable.getVectorDrawable(getActivity(), iconId));
 
@@ -365,6 +378,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
       }
     }
+  }
+
+  private static long getDiffTime(String timeString) {
+    Locale locale = new Locale("fa_ ");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", locale);
+    //
+    try {
+      Date busTime = df.parse(timeString);
+      Date currentTime = new Date();
+      return currentTime.getTime() - busTime.getTime();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+
+  private boolean isDeviceIsOnline(long diff) {
+    return !(diff >= 30000);
   }
 
 

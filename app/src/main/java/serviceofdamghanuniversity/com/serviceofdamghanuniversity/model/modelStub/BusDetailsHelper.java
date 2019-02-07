@@ -41,7 +41,8 @@ public class BusDetailsHelper {
         busDetails.setIconId(busColorWithId(busId));
         break;
       case "offline":
-        busDetails.setIconId(R.drawable.bus_offline);
+        //busDetails.setIconId(R.drawable.bus_offline);
+        busDetails.setIconId(busColorWithId(busId));
         break;
       default:
         busDetails.setIconId(R.drawable.bus_offline);
@@ -51,6 +52,7 @@ public class BusDetailsHelper {
 
     return busDetails;
   }
+
 
   private static int busColorWithId(int busId) {
     switch (busId) {

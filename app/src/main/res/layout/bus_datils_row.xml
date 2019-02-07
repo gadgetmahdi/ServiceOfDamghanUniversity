@@ -33,7 +33,7 @@
             android:layout_marginStart="5dp"
             android:visibility="gone"
             android:textSize="12sp"
-            android:textColor="#ffff"/>
+            android:textColor="@color/bus_is_offline"/>
 
     </LinearLayout>
 
