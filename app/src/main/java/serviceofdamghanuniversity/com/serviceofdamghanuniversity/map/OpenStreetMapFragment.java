@@ -69,7 +69,7 @@ public class OpenStreetMapFragment extends Fragment {
 
     return view;
   }
-  
+
   private void setSettingForMap(){
     map.setMultiTouchControls(true);
   }
