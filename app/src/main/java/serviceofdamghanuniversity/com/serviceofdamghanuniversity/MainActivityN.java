@@ -14,17 +14,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -146,7 +146,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
             sendIssue();
             drawerLayout.closeDrawers();
             return true;
-          case R.id.nav_check_update:
+          /*case R.id.nav_check_update:
 
             if (CheckInternet.isNetworkConnected(MainActivityN.this)) {
               checkForUpdate();
@@ -155,7 +155,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
             }
 
             drawerLayout.closeDrawers();
-            return true;
+            return true;*/
 
           default:
             return true;

@@ -1,6 +1,5 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.module;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,18 +7,20 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class PermissionHandler {
 
 
   private BroadcastReceiver permissionReceiver;
   private OnPermissionResponse listener;
-  private Activity activity;
+  private AppCompatActivity activity;
 
-  public void checkPermission(Activity _activity, String[] permission, OnPermissionResponse _listener) {
+  public void checkPermission(AppCompatActivity _activity, String[] permission, OnPermissionResponse _listener) {
     listener = _listener;
     activity = _activity;
 
@@ -45,7 +46,7 @@ public class PermissionHandler {
   /**
    *  One Permission
    */
-  public void checkPermission(Activity _activity,String permission,OnPermissionResponse _listener) {
+  public void checkPermission(AppCompatActivity _activity, String permission, OnPermissionResponse _listener) {
     listener = _listener;
     activity = _activity;
 

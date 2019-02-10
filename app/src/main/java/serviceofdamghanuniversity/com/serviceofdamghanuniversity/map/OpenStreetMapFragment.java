@@ -1,37 +1,28 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.map;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +33,6 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.model.Event
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetails;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetailsHelper;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.BitmapToVectorDrawable;
 
 import static serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.utile.BusHelper.getDiffTime;
 import static serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.utile.BusHelper.isDeviceIsOnline;
@@ -71,7 +61,7 @@ public class OpenStreetMapFragment extends Fragment {
     Context ctx = getContext();
     Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
     initView(view);
-    map.setTileSource(TileSourceFactory.MAPNIK);
+    //map.setTileSource(TileSourceFactory.MAPNIK);
     showCustomLocationOnMap();
 
     EventBus.getDefault().register(this);

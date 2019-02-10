@@ -19,8 +19,6 @@ public class TokenPresenterImpl implements TokenContract.TokenPresenter {
   private TokenRepo repo;
   private TokenContract.TokenView view;
   private OkHttpClient okHttpClient;
-  private String mToken = null;
-  private boolean isTokenLoadedBefore = false;
   private static TokenDbHelper tokenDb;
 
   @Inject
@@ -29,14 +27,11 @@ public class TokenPresenterImpl implements TokenContract.TokenPresenter {
     this.view = view;
     this.okHttpClient = okHttpClient;
     tokenDb = new TokenDbHelper(context);
-    getTokenFromDb();
   }
 
 
   @Override
   public void getToken() {
-    if(!isTokenLoadedBefore) {
-      Log.d(TAG, "getToken: not");
       repo.getToken(okHttpClient);
       repo.getToken().subscribe(
         token -> {
@@ -46,17 +41,13 @@ public class TokenPresenterImpl implements TokenContract.TokenPresenter {
           tokenDatabase.setToken(parsedToken);
           try {
             tokenDb.createOrUpdate(tokenDatabase);
-            isTokenLoadedBefore = true;
             view.onTokenLoaded(parsedToken, null);
           } catch (SQLException e) {
             e.printStackTrace();
           }
         },
         throwable -> view.onTokenLoaded(null, throwable));
-    }else {
-      Log.d(TAG, "getToken: " + mToken);
-      view.onTokenLoaded(mToken, null);
-    }
+
   }
 
   private String parseToken(String token) {
@@ -64,17 +55,5 @@ public class TokenPresenterImpl implements TokenContract.TokenPresenter {
     return url[url.length - 1];
   }
 
-  private void getTokenFromDb(){
-    try {
-      if (!tokenDb.getToken().equals("")) {
-        mToken = tokenDb.getToken();
-        isTokenLoadedBefore = true;
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    mToken = null;
-    isTokenLoadedBefore = false;
-  }
 
 }

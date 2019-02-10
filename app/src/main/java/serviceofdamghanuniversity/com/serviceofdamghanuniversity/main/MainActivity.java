@@ -1,16 +1,25 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.main;
 
 import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -19,6 +28,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.MainActivityN;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.MainViewPagerAdapter;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.buslist.BusFragment;
@@ -29,6 +39,8 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.utile.N
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.GoogleMapFragment;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.OpenStreetMapFragment;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.BusPositionClass;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.setting.SettingActivity;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.setting.SettingHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,9 +98,8 @@ public class MainActivity extends AppCompatActivity {
           sendIssue();
           drawerLayout.closeDrawers();
           return true;
-        case R.id.nav_check_update:
-
-
+        case R.id.nav_setting:
+          startActivity(new Intent(this, SettingActivity.class));
           drawerLayout.closeDrawers();
           return true;
 
@@ -107,12 +118,21 @@ public class MainActivity extends AppCompatActivity {
     new BusPositionClass(this);
   }
 
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+
+    return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+
+  }
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
     unregisterReceiver(networkChangeReceiver);
     EventBus.getDefault().unregister(this);
   }
+
 
   private void sendIssue() {
     final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -131,8 +151,11 @@ public class MainActivity extends AppCompatActivity {
 
   private void setupViewPager(ViewPager viewPager) {
     MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-    adapter.addFragment(new GoogleMapFragment(), getString(R.string.map));
-    adapter.addFragment(new OpenStreetMapFragment(), getString(R.string.buses));
+    if (SettingHelper.getSettingData(this).equals(SettingHelper.GoogleMap)) {
+      adapter.addFragment(new GoogleMapFragment(), getString(R.string.map));
+    } else {
+      adapter.addFragment(new OpenStreetMapFragment(), getString(R.string.map));
+    }
     adapter.addFragment(new BusFragment(), getString(R.string.buses));
     viewPager.setAdapter(adapter);
   }
@@ -150,6 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onBusSelected(EventBusSelectedModel eventBusSelectedModel) {
-    viewPager.setCurrentItem(1);
+    viewPager.setCurrentItem(0);
   }
 }

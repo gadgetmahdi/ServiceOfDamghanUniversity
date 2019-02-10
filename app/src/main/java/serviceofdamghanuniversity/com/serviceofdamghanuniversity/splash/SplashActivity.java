@@ -2,8 +2,10 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -16,7 +18,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.splash.presente
 
 public class SplashActivity extends AppCompatActivity  implements SplashContract.SplashView{
 
-
+  private static final String TAG = "SplashActivity";
   private SplashPresenterImpl presenter;
   private TextView txtDeveloper;
   private TextView txtCreateBy;
@@ -72,6 +74,7 @@ public class SplashActivity extends AppCompatActivity  implements SplashContract
 
   @Override
   public void onDataLoaded() {
+    Log.d(TAG, "onDataLoaded: ");
     startActivity(new Intent(this , MainActivity.class));
     finish();
   }

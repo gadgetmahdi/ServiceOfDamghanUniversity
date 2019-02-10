@@ -2,8 +2,8 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 @SuppressLint("Registered")
 public class PermissionClass extends AppCompatActivity {
