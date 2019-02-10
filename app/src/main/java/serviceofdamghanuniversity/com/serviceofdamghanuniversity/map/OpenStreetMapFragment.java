@@ -62,11 +62,16 @@ public class OpenStreetMapFragment extends Fragment {
     Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
     initView(view);
     //map.setTileSource(TileSourceFactory.MAPNIK);
+    setSettingForMap();
     showCustomLocationOnMap();
 
     EventBus.getDefault().register(this);
 
     return view;
+  }
+  
+  private void setSettingForMap(){
+    map.setMultiTouchControls(true);
   }
 
   private void showCustomLocationOnMap() {
