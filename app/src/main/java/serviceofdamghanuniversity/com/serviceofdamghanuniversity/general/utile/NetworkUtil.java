@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.utile;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

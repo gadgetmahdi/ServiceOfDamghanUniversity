@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.CheckInternet;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.utile.CheckInternet;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.model.EventBusLocationModel;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.di.component.DaggerBusPositionComponent;

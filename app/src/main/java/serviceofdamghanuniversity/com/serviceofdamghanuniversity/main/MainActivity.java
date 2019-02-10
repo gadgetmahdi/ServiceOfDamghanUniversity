@@ -1,15 +1,10 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.main;
 
 import android.content.BroadcastReceiver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -28,8 +23,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.MainActivityN;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.MainViewPagerAdapter;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.buslist.BusFragment;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.buslist.EventBusSelectedModel;

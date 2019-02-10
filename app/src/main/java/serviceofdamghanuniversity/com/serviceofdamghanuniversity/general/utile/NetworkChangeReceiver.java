@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.NetworkUtil;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.EventBusInternetModel;
 
 
