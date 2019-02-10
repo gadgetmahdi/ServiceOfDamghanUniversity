@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.main;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
