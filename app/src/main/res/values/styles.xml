@@ -4,14 +4,43 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_900</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
     </style>
 
 
     <style name="splashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/keremi</item>
+        <item name="android:windowBackground">@color/grey_50</item>
     </style>
+
+
+    <style name="AppTheme.ColorAccent">
+        <item name="colorAccent">@color/colorAccent</item> <!-- Whatever color you want-->
+    </style>
+
+    <style name="ProgressBar"> parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+
+<!--
+
+    <style name="Theme.White" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/blue_900</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="nav_header_center_color">@color/nav_header_center</item>
+        <item name="nav_header_end_color">@color/nav_header_end</item>
+        <item name="nav_header_start_color">@color/nav_header_start_color</item>
+    </style>
+-->
+
 
 </resources>

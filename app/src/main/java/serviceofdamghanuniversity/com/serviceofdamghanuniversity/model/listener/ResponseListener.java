@@ -4,6 +4,7 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener
 import java.util.List;
 
 import retrofit2.Response;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 
 public class ResponseListener {
@@ -14,6 +15,13 @@ public class ResponseListener {
 
     public void onError(String error);
 
+  }
+
+  public interface DeviceResponse{
+
+    public void onResponseDevice(Response<List<Devices>> response);
+
+    public void onError(String error);
   }
 
   public interface TokenResponse {
@@ -28,7 +36,7 @@ public class ResponseListener {
 
     public void onSessionCreated();
 
-    public void onError(String error);
+    public void onSessionError(String error);
 
   }
 

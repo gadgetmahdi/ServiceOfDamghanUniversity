@@ -1,41 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:id="@+id/splash_layout"
-    android:background="@color/keremi">
+    android:background="@color/grey_50"
+    android:gravity="center">
 
-<android.support.v7.widget.AppCompatImageView
-    android:background="@drawable/logo"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/logo"/>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="227dp"
+        android:layout_marginTop="110dp"
+        android:background="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/txt_developer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        />
 
     <ProgressBar
-       android:layout_below="@+id/logo"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progress_bar"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_below="@+id/progress_bar"
+        android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:text="@string/creat_by"
+        app:layout_constraintBottom_toTopOf="@+id/txt_developer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintVertical_chainStyle="spread_inside"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_create_by"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_creat_by"/>
+        android:layout_marginTop="12dp"
+        android:text="@string/created_by"
+        android:textColor="@color/blue_grey_900"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_developer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/create_by_user" />
+        android:layout_marginBottom="16dp"
+        android:text="@string/create_by_user"
+        android:textColor="@color/blue_grey_900"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"/>
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

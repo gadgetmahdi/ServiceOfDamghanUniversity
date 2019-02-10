@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "846535940377",
-    "firebase_url": "https://arctic-sentry-220721.firebaseio.com",
-    "project_id": "arctic-sentry-220721",
-    "storage_bucket": "arctic-sentry-220721.appspot.com"
+    "project_number": "237263238683",
+    "firebase_url": "https://service-of-damghan-uni.firebaseio.com",
+    "project_id": "service-of-damghan-uni",
+    "storage_bucket": "service-of-damghan-uni.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:846535940377:android:60917e1a2af85dc7",
+        "mobilesdk_app_id": "1:237263238683:android:60917e1a2af85dc7",
         "android_client_info": {
           "package_name": "serviceofdamghanuniversity.com.serviceofdamghanuniversity"
         }
       },
       "oauth_client": [
         {
-          "client_id": "846535940377-115dl3hvjba021eu29816n5dm7ojeqi4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "serviceofdamghanuniversity.com.serviceofdamghanuniversity",
-            "certificate_hash": "37beb37730a5683cdeee2f9adcd4c176386ce5f2"
-          }
-        },
-        {
-          "client_id": "846535940377-ofn08po75iavbn8leeo533e8f691j5jo.apps.googleusercontent.com",
+          "client_id": "237263238683-lm60q33772nee2ehk6qr46hbvjia13na.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBaBElzcYkAJ7O_pnS6HOxCzvIGSyWghi0"
+          "current_key": "AIzaSyD3kLUwb-eLlmwQrdWXPdtoX7ob_4QESvc"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "846535940377-ofn08po75iavbn8leeo533e8f691j5jo.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

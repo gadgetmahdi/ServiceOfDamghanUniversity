@@ -1,8 +1,6 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -10,6 +8,8 @@ import okhttp3.Interceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Devices;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.DevicesInterface;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.webServiceHelper.LoggingInterceptor;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.User;
@@ -20,10 +20,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.clie
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.SessionInterface;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.rInterface.TokenInterface;
 
-/**
- * create with mahdi gadget 11/2018
- * baraye initialize va....
- */
+
 public class WebServiceCaller {
 
   private static WebServiceCaller webServiceCaller = null;
@@ -31,7 +28,7 @@ public class WebServiceCaller {
   private JsonInterface jsonInterface;
   private TokenInterface tokenInterface;
   private SessionInterface sessionInterface;
-
+  private DevicesInterface devicesInterface;
 
 
   public static WebServiceCaller getInstance() {
@@ -44,23 +41,22 @@ public class WebServiceCaller {
   private WebServiceCaller() {
     jsonInterface = MainClient.getClient().create(JsonInterface.class);
     sessionInterface = MainClient.getClient().create(SessionInterface.class);
+    devicesInterface = MainClient.getClient().create(DevicesInterface.class);
     tokenInterface = TokenClient.getClient().create(TokenInterface.class);
   }
 
 
-  public void createSession(String token ,final ResponseListener.Session responseSession) {
+  public void createSession(String token, final ResponseListener.Session responseSession) {
     Call<User> session = sessionInterface.createSession(token);
     session.enqueue(new Callback<User>() {
       @Override
       public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-        Log.w("MehdiTest13", response.toString()+"");
         responseSession.onSessionCreated();
       }
 
       @Override
       public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-        Log.w("MehdiTest11", t.toString());
-        responseSession.onError(t.getMessage());
+        responseSession.onSessionError(t.getMessage());
       }
     });
   }
@@ -89,7 +85,6 @@ public class WebServiceCaller {
 
       @Override
       public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-        Log.w("MehdiTest1", t.getMessage());
         tokenResponse.onError(t.getMessage());
       }
 
@@ -97,16 +92,13 @@ public class WebServiceCaller {
     });
   }
 
-  public void getAllJson(String url ,final ResponseListener.JsonResponse jsonResponse) {
+  public void getAllJson(String url, final ResponseListener.JsonResponse jsonResponse) {
 
     Call<List<Position>> json = jsonInterface.getAllJson(url);
 
     json.enqueue(new Callback<List<Position>>() {
       @Override
       public void onResponse(@NonNull Call<List<Position>> call, @NonNull Response<List<Position>> response) {
-          Log.w("MehdiTest13", response.toString()+"");
-       // Log.w("MehdiTest13", response.headers()+"");
-        //Log.w("MehdiTest13", response.raw().headers()+"");
         jsonResponse.onResponseJson(response);
 
       }
@@ -115,6 +107,26 @@ public class WebServiceCaller {
       public void onFailure(@NonNull Call<List<Position>> call, @NonNull Throwable t) {
 
         jsonResponse.onError(t.getMessage());
+
+      }
+    });
+  }
+
+  public void getDevices(final ResponseListener.DeviceResponse deviceResponse) {
+
+    Call<List<Devices>> json = devicesInterface.getDevices();
+
+    json.enqueue(new Callback<List<Devices>>() {
+      @Override
+      public void onResponse(@NonNull Call<List<Devices>> call, @NonNull Response<List<Devices>> response) {
+        deviceResponse.onResponseDevice(response);
+
+      }
+
+      @Override
+      public void onFailure(@NonNull Call<List<Devices>> call, @NonNull Throwable t) {
+
+        deviceResponse.onError(t.getMessage());
 
       }
     });

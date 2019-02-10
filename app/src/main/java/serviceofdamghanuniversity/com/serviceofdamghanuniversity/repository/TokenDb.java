@@ -1,14 +1,38 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 
-import static android.content.Context.MODE_PRIVATE;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 
+@DatabaseTable(tableName = "TokenDb")
 public class TokenDb {
 
-  private static final String PREFS_NAME = "Token";
+
+  @DatabaseField(columnName = "id",id = true)
+  private int id;
+
+  @DatabaseField(columnName = "token")
+  private String token;
+
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+
+  /* private static final String PREFS_NAME = "Token";
   private static final String PREFS_INITIALIZED = "initialized";
   private static final String PREFS_TOKEN = "token";
   private SharedPreferences prefs;
@@ -26,12 +50,10 @@ public class TokenDb {
   }
 
   public void saveToken(String token) {
-    if (!checkIsShCreated()) {
       SharedPreferences.Editor shEditor = prefs.edit();
       shEditor.putBoolean(PREFS_INITIALIZED, true);
       shEditor.putString(PREFS_TOKEN, token);
       shEditor.apply();
-    }
   }
 
   public void deleteToken() {
@@ -46,5 +68,5 @@ public class TokenDb {
   public String getToken() {
     return prefs.getString(PREFS_TOKEN, null);
   }
-
+*/
 }

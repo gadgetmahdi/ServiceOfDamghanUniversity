@@ -1,11 +1,57 @@
 <resources>
-    <string name="app_name">serviceofdamghanuniversity</string>
+    <string name="app_name">DUS</string>
+    <string name="bus_is_online">متصل</string>
+    <string name="bus_is_offline">عدم اتصال</string>
     <string name="title_activity_maps">Map</string>
-    <string name="servernotfond">سرور در دسترس نیست،لطفا بعدا تلاش کنید</string>
+    <string name="bus_speed">%.1f  km/h</string>
+    <string name="server_not_fund">سرور در دسترس نیست،لطفا بعدا تلاش کنید</string>
     <string name="not_location">موقعیت شما در دسترس نیست</string>
     <string name="get_location">در حال دریافت اطلاعات از سرور</string>
-    <string name="nodata">هیچ اطلاعاتی در دسترس نیست</string>
-    <string name="serverـerror">خطا در دریافت اطلاعات از سرور</string>
-    <string name="creat_by">کاری از انجمن علمی مهندسی کامپیوتر دانشگاه دامغان</string>
-    <string name="create_by_user">power by M.vizhe and M.gadget</string>
+    <string name="no_data">هیچ اطلاعاتی در دسترس نیست</string>
+    <string name="server_error">خطا در دریافت اطلاعات از سرور</string>
+    <string name="created_by">کاری از انجمن علمی مهندسی کامپیوتر دانشگاه دامغان</string>
+    <string name="create_by_user">developed by M.Vijeh and M.Gadget</string>
+    <string name="server_err">سرور ارور:</string>
+    <string name="late_service">گزارش شکایت</string>
+    <string name="bus_details">سرویس فنی</string>
+    <string name="nav_open">open</string>
+    <string name="nav_close">close</string>
+    <string name="no_connection_title">عدم اتصال به اینترنت</string>
+    <string name="no_connection_message">لطفا اتصال خود به اینترنت را بررسی کنید.</string>
+    <string name="no_connection_exit_button">خروج از برنامه</string>
+
+    <string name="restart_app_title">راه اندازی دوباره اپ</string>
+    <string name="restart_app_message">برای اعمال تغییرات ، برنامه باید دوباره راه اندازی شود.</string>
+    <string name="restart_app_message_button">راه اندازی مجدد</string>
+
+    <string name="txt_late_service">لطفا متن شکایت خود را همراه با توضیحات و سرویس مورد نظر وارد کنید.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">بهمن 97</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="update_app_url">http://raw.githubusercontent.com/gadgetmahdi/ServiceOfDamghanUniversity/master/app.apk</string>
+    <string name="map">نقشه</string>
+    <string name="buses">اتوبوس ها</string>
+    <string name="report">ارائه انتقاد ، پیشنهاد و شکایت</string>
+    <string name="check_for_update">بررسی آخرین نسخه</string>
+    <string name="setting">تنظیمات</string>
+    <string name="internet_problem">اینترنت شما داری مشکل است</string>
+    <string name="start_download_update">دانلود شروع شد</string>
+    <string name="start_download_title">دانلود نسخه جدید</string>
+    <string name="report_a_problem"> ارائه انتقاد ، پیشنهاد و شکایت </string>
+    <string name="update_available">نسخه جدید موجود است</string>
+    <string name="update_not_available">نسخه جدیدی موجود نیست</string>
+    <string name="update_not_available_content">نسخه جدیدی موجود نیست، لطفا بعدا تلاش کنید.</string>
+    <string name="update_download">دانلود</string>
+    <string name="update_cancel">خیر</string>
+    <string name="update_available_content">نسخه جدیدی از برنامه موجود است. آیا تمایل به دانلود آن دارید؟</string>
+    <string name="pdf">زمانبندی سرویس ها</string>
+    <string name="which_type_map">استفاده از نقشه:</string>
+    <string name="radio_google_map">Google Map</string>
+    <string name="radio_opensteet_map">Open Street Map</string>
+    <string name="btn_save">ذخیره</string>
+
 </resources>

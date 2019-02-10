@@ -3,16 +3,19 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.module;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.sql.SQLException;
+
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDb;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDbHelper;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
 public class TokenClass {
 
   private static TokenClass tokenClass = null;
-  private static TokenDb tokenDb;
+  private static TokenDbHelper tokenDb;
   private Context context;
   private SaveTokenListener saveTokenListener;
 
@@ -27,16 +30,17 @@ public class TokenClass {
   private TokenClass(Context context, SaveTokenListener saveTokenListener) {
     this.context = context;
     this.saveTokenListener = saveTokenListener;
-    tokenDb = new TokenDb(context);
+    tokenDb = new TokenDbHelper(context);
   }
 
 
-  public boolean createNewTokenIfIsNotExist() {
-    if (!tokenDb.checkIsShCreated()) {
+  public boolean createNewTokenIfIsNotExist() throws SQLException {
+    if (tokenDb.getToken().equals("")) {
       getToken();
       return false;
+    } else {
+      return true;
     }
-    return true;
   }
 
   private void getToken() {
@@ -46,14 +50,22 @@ public class TokenClass {
 
       @Override
       public void onResponseToken(String token) {
-        saveToken(parseToken(token));
-        saveTokenListener.savedToken();
+        try {
+          TokenDb tokenDatabase = new TokenDb();
+          tokenDatabase.setId(0);
+          //tokenDatabase.setToken("eeRod37DdsGE09lNjqZGASPgjm9BlBwp");
+          tokenDatabase.setToken(parseToken(token));
+          tokenDb.createOrUpdate(tokenDatabase);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+        saveTokenListener.savedToken(token);
       }
 
       @Override
       public void onError(String error) {
         saveTokenListener.error();
-        Toast.makeText(context, R.string.servernotfond, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.server_not_fund, Toast.LENGTH_SHORT).show();
 
       }
     });
@@ -62,10 +74,6 @@ public class TokenClass {
   private String parseToken(String token) {
     String[] url = token.split("=");
     return url[url.length - 1];
-  }
-
-  private void saveToken(String token) {
-    tokenDb.saveToken(token);
   }
 
 
