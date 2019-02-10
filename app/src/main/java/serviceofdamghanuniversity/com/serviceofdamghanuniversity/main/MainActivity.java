@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,7 +26,8 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.buslist.EventBu
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.EventBusInternetModel;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.dialog.DialogNoInternet;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.utile.NetworkChangeReceiver;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.MapMvpFragment;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.GoogleMapFragment;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.OpenStreetMapFragment;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.BusPositionClass;
 
 public class MainActivity extends AppCompatActivity {
@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
   private void setupViewPager(ViewPager viewPager) {
     MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-    adapter.addFragment(new MapMvpFragment(), getString(R.string.map));
+    adapter.addFragment(new GoogleMapFragment(), getString(R.string.map));
+    adapter.addFragment(new OpenStreetMapFragment(), getString(R.string.buses));
     adapter.addFragment(new BusFragment(), getString(R.string.buses));
     viewPager.setAdapter(adapter);
   }
@@ -149,6 +150,6 @@ public class MainActivity extends AppCompatActivity {
 
   @Subscribe(threadMode = ThreadMode.MAIN)
   public void onBusSelected(EventBusSelectedModel eventBusSelectedModel) {
-    viewPager.setCurrentItem(0);
+    viewPager.setCurrentItem(1);
   }
 }

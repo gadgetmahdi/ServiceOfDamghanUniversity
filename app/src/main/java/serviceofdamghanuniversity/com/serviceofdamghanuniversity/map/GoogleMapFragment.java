@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,14 +51,14 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.module.BitmapTo
 import static serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.utile.BusHelper.getDiffTime;
 import static serviceofdamghanuniversity.com.serviceofdamghanuniversity.map.utile.BusHelper.isDeviceIsOnline;
 
-public class MapMvpFragment extends Fragment implements OnMapReadyCallback {
+public class GoogleMapFragment extends Fragment implements OnMapReadyCallback {
 
-  public MapMvpFragment() {
+  public GoogleMapFragment() {
     // Required empty public constructor
   }
 
-  public static MapMvpFragment newInstance() {
-    return new MapMvpFragment();
+  public static GoogleMapFragment newInstance() {
+    return new GoogleMapFragment();
   }
 
   @BindView(R.id.map_type_FAB)
@@ -99,7 +98,7 @@ public class MapMvpFragment extends Fragment implements OnMapReadyCallback {
   TextView map_type_terrain_text;
 
 
-  private static final String TAG = "MapMvpFragment";
+  private static final String TAG = "GoogleMapFragment";
   private GoogleMap map;
   private boolean isMapLoaded = false;
   private Unbinder unbinder;
