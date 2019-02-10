@@ -28,7 +28,7 @@ public class TokenRepo {
     this.api = api;
   }
 
-  public void getBusPosition(OkHttpClient okHttpClient) {
+  public void getToken(OkHttpClient okHttpClient) {
 
     Call<String> url = api.getToken();
     url.enqueue(new Callback<String>() {

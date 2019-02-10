@@ -30,7 +30,7 @@ public class BusModule {
     BusNetService api = RetrofitProvider.provideRetrofit(
       HttpUrl.parse("http://skill.du.ac.ir:8082"), context).create(BusNetService.class);
     BusRepo repo = new BusRepo(api);
-    return new BusPresenterImpl(view, repo);
+    return new BusPresenterImpl(view, context, repo);
   }
 
 }

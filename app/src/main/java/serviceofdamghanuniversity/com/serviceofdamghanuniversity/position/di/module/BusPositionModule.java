@@ -28,7 +28,7 @@ public class BusPositionModule {
   @Provides
   public BusPositionContract.BusPositionPresenter busPositionPresenterProvider() {
     BusPositionNetService api = RetrofitProvider.provideRetrofit(
-      HttpUrl.parse(""), context).create(BusPositionNetService.class);
+      HttpUrl.parse("http://skill.du.ac.ir:8082"), context).create(BusPositionNetService.class);
     BusPositionRepo repo = new BusPositionRepo(api);
     return new BusPositionPresenterImpl(view, repo);
   }

@@ -26,6 +26,10 @@ public class ClientProvider {
       return chain.proceed(request);
     });
 
+    CookieManager cookieManager = new CookieManager();
+    cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+    okHttpClient.cookieJar(new JavaNetCookieJar(cookieManager));
+
     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
     loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 

@@ -18,6 +18,7 @@ import static serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.
 
 @Module
 public class TokenModule {
+
   private TokenContract.TokenView view;
   private Context context;
 
@@ -26,14 +27,13 @@ public class TokenModule {
     this.context = context;
   }
 
-
-  @Provides
   @Singleton
-  public TokenContract.TokenPresenter TokenPresenterProvider() {
+  @Provides
+  public TokenContract.TokenPresenter tokenPresenterProvider() {
     OkHttpClient okHttpClient = provideOkHttpClientWithInterceptor();
     TokenNetService api = RetrofitProvider.provideRetrofitWithInterceptor(
-      HttpUrl.parse("http://bit.do/") , okHttpClient).create(TokenNetService.class);
+      HttpUrl.parse("http://bit.do/"), okHttpClient).create(TokenNetService.class);
     TokenRepo repo = new TokenRepo(api);
-    return new TokenPresenterImpl(repo, view  , context, okHttpClient);
+    return new TokenPresenterImpl(repo, view , context , okHttpClient);
   }
 }

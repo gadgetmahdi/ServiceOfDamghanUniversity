@@ -6,6 +6,6 @@ public class BusContract {
   }
 
   public interface BusView{
-    void onBusDataLoaded();
+    void onBusDataLoaded(Throwable throwable);
   }
 }

@@ -3,11 +3,11 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.di.co
 import javax.inject.Singleton;
 
 import dagger.Component;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.BusPositionFragment;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.BusPositionClass;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.position.di.module.BusPositionModule;
 
 @Singleton
 @Component(modules = BusPositionModule.class)
 public interface BusPositionComponent {
-  void inject(BusPositionFragment busPositionFragment);
+  void inject(BusPositionClass BusPositionClass);
 }

@@ -1,4 +1,4 @@
-package serviceofdamghanuniversity.com.serviceofdamghanuniversity;
+package serviceofdamghanuniversity.com.serviceofdamghanuniversity.buslist;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.modelStub.BusDetails;
 
 public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAdapter> {
 
   public interface BusAdapterSetOnClickListener {
-    void onClickListener(View view, int busId);
+    void onClickListener(int busId);
   }
 
   private ArrayList<BusDetails> list;
@@ -86,12 +87,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolderBusAda
     Drawable drawable = ContextCompat.getDrawable(context, busDetails.getIconId());
     viewHolderWorkoutAdapter.imgBus.setImageDrawable(drawable);
 
-    viewHolderWorkoutAdapter.linearLayoutBuses.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        busAdapterSetOnClickListener.onClickListener(v, busDetails.getBusId());
-      }
-    });
+    viewHolderWorkoutAdapter.linearLayoutBuses.setOnClickListener(v -> busAdapterSetOnClickListener.onClickListener(busDetails.getBusId()));
 
   }
 

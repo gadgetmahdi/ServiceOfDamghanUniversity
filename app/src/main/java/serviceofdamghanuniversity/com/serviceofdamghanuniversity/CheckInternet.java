@@ -8,7 +8,6 @@ public class CheckInternet {
 
   public static boolean isNetworkConnected(Context context) {
     ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
     return cm != null && cm.getActiveNetworkInfo() != null;
   }
 

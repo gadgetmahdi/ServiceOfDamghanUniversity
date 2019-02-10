@@ -19,39 +19,62 @@ public class TokenPresenterImpl implements TokenContract.TokenPresenter {
   private TokenRepo repo;
   private TokenContract.TokenView view;
   private OkHttpClient okHttpClient;
+  private String mToken = null;
+  private boolean isTokenLoadedBefore = false;
   private static TokenDbHelper tokenDb;
 
   @Inject
-  public TokenPresenterImpl(TokenRepo repo, TokenContract.TokenView view , Context context, OkHttpClient okHttpClient) {
+  public TokenPresenterImpl(TokenRepo repo, TokenContract.TokenView view, Context context, OkHttpClient okHttpClient) {
     this.repo = repo;
     this.view = view;
     this.okHttpClient = okHttpClient;
     tokenDb = new TokenDbHelper(context);
+    getTokenFromDb();
   }
 
 
   @Override
   public void getToken() {
-    repo.getBusPosition(okHttpClient);
-    repo.getToken().subscribe(
-      token -> {
-        TokenDb tokenDatabase = new TokenDb();
-        tokenDatabase.setId(0);
-        //tokenDatabase.setToken("eeRod37DdsGE09lNjqZGASPgjm9BlBwp");
-        tokenDatabase.setToken(parseToken(token));
-        try {
-          tokenDb.createOrUpdate(tokenDatabase);
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-        view.onTokenLoaded();
-      },
-      throwable -> view.onTokenLoaded());
+    if(!isTokenLoadedBefore) {
+      Log.d(TAG, "getToken: not");
+      repo.getToken(okHttpClient);
+      repo.getToken().subscribe(
+        token -> {
+          String parsedToken = parseToken(token);
+          TokenDb tokenDatabase = new TokenDb();
+          tokenDatabase.setId(0);
+          tokenDatabase.setToken(parsedToken);
+          try {
+            tokenDb.createOrUpdate(tokenDatabase);
+            isTokenLoadedBefore = true;
+            view.onTokenLoaded(parsedToken, null);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        },
+        throwable -> view.onTokenLoaded(null, throwable));
+    }else {
+      Log.d(TAG, "getToken: " + mToken);
+      view.onTokenLoaded(mToken, null);
+    }
   }
 
   private String parseToken(String token) {
     String[] url = token.split("=");
     return url[url.length - 1];
+  }
+
+  private void getTokenFromDb(){
+    try {
+      if (!tokenDb.getToken().equals("")) {
+        mToken = tokenDb.getToken();
+        isTokenLoadedBefore = true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    mToken = null;
+    isTokenLoadedBefore = false;
   }
 
 }

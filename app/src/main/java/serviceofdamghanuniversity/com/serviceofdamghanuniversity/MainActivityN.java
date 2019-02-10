@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,7 +21,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -44,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Response;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.buslist.BusFragment;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.jsonModel.Position;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.ResponseListener;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.model.listener.SaveTokenListener;
@@ -53,7 +52,7 @@ import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.Toke
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.repository.TokenDbHelper;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.webservice.WebServiceCaller;
 
-public class MainActivityN extends PermissionClass implements ResponseListener.Session, LocationListener, BusFragment.BusIdCallBack {
+public class MainActivityN extends PermissionClass implements ResponseListener.Session, LocationListener {
 
 
   public interface PositionsForMap {
@@ -453,7 +452,7 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   private void setupViewPager(ViewPager viewPager) {
     MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
     BusFragment busFragment = new BusFragment();
-    busFragment.setBusIdCallBack(this);
+   // busFragment.setBusIdCallBack(this);
     adapter.addFragment(new MapFragment(), getString(R.string.map));
     adapter.addFragment(busFragment, getString(R.string.buses));
     viewPager.setAdapter(adapter);
@@ -541,13 +540,13 @@ public class MainActivityN extends PermissionClass implements ResponseListener.S
   }
 
 
-  @Override
+  /*@Override
   public void onBusSelected(int busId) {
     if (mPositions != null) {
       viewPager.setCurrentItem(0);
       mPositions.onBusSelected(busId);
     }
-  }
+  }*/
 
 
   @Override

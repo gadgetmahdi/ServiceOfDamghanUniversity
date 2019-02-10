@@ -1,5 +1,6 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.dialog;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -11,8 +12,8 @@ import android.widget.TextView;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 
 public class DialogNoInternet {
-  public static void showIsNotConnection(Context context) {
-    AlertDialog dialog;
+  private static  AlertDialog dialog;
+  public static void showIsNotConnection(Context context , BroadcastReceiver broadcastReceiver) {
     AlertDialog.Builder builder;
     builder = new AlertDialog.Builder(context);
     builder.setCancelable(false);
@@ -28,12 +29,18 @@ public class DialogNoInternet {
     txtContent.setText(context.getString(R.string.no_connection_message));
     btnExit.setText(context.getString(R.string.no_connection_exit_button));
     btnExit.setOnClickListener(view1 -> {
-      Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-      homeIntent.addCategory(Intent.CATEGORY_HOME);
-      homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      context.startActivity(homeIntent);
+      dialog.dismiss();
+      context.unregisterReceiver(broadcastReceiver);
+      android.os.Process.killProcess(android.os.Process.myPid());
+      System.exit(1);
     });
     dialog = builder.create();
     dialog.show();
+  }
+
+  public static void dismissDialog(){
+    if(dialog.isShowing()){
+      dialog.dismiss();
+    }
   }
 }

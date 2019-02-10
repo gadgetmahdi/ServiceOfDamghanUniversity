@@ -1,5 +1,7 @@
 package serviceofdamghanuniversity.com.serviceofdamghanuniversity.bus.repo;
 
+import java.util.List;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -13,7 +15,7 @@ public class BusRepo {
     this.api = api;
   }
 
-  public Observable<Devices> getBusData() {
+  public Observable<List<Devices>> getBusData() {
     return api.getDevices()
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread());

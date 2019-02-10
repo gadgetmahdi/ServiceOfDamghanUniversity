@@ -6,6 +6,6 @@ public class TokenContract {
   }
 
   public interface TokenView{
-    void onTokenLoaded();
+    void onTokenLoaded(String token , Throwable throwable);
   }
 }

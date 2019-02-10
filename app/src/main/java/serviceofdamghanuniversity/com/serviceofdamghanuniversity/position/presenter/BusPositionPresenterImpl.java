@@ -18,6 +18,8 @@ public class BusPositionPresenterImpl implements BusPositionContract.BusPosition
 
   @Override
   public void getBusLocation() {
-
+    repo.getBusPosition().subscribe(
+      busPositionModel  -> view.onBusLocationReceived(busPositionModel , null),
+      throwable ->  view.onBusLocationReceived(null , throwable));
   }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +14,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import javax.inject.Inject;
-
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.R;
 import serviceofdamghanuniversity.com.serviceofdamghanuniversity.general.action.SplashCallback;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.token.TokenContract;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.token.di.component.DaggerTokenComponent;
-import serviceofdamghanuniversity.com.serviceofdamghanuniversity.token.di.module.TokenModule;
+import serviceofdamghanuniversity.com.serviceofdamghanuniversity.splash.presenter.SplashPresenterImpl;
 
-public class SplashFragment extends Fragment implements  TokenContract.TokenView {
+public class SplashFragment extends Fragment implements SplashContract.SplashView{
 
-
-  @Inject
-  TokenContract.TokenPresenter mTokenPresenter;
-
+  private static final String TAG = "SplashFragment";
+  private SplashPresenterImpl presenter;
   private SplashCallback splashFinished;
   private TextView txtDeveloper;
   private TextView txtCreateBy;
   private ImageView imgLogo;
   private ProgressBar progressBar;
+
 
   public SplashFragment() {
     // Required empty public constructor
@@ -47,13 +43,8 @@ public class SplashFragment extends Fragment implements  TokenContract.TokenView
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    TokenModule tokenModule = new TokenModule(this , getContext());
-    DaggerTokenComponent.builder()
-      .tokenModule(tokenModule)
-      .build()
-      .inject(this);
-
-
+    presenter = new SplashPresenterImpl(getContext() ,this);
+    presenter.loadNeededData();
   }
 
   @Override
@@ -63,7 +54,6 @@ public class SplashFragment extends Fragment implements  TokenContract.TokenView
     View view = inflater.inflate(R.layout.fragment_splash, container, false);
     initView(view);
     startAnimations();
-    mTokenPresenter.getToken();
     return view;
   }
 
@@ -105,7 +95,15 @@ public class SplashFragment extends Fragment implements  TokenContract.TokenView
 
 
   @Override
-  public void onTokenLoaded() {
+  public void onStop() {
+    super.onStop();
+    presenter.onDestroy();
+  }
+
+
+  @Override
+  public void onDataLoaded() {
+    Log.d(TAG, "onDataLoaded: ");
     splashFinished.call();
   }
 }
