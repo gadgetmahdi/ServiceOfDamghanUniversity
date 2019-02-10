@@ -3,6 +3,7 @@ package serviceofdamghanuniversity.com.serviceofdamghanuniversity.module;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -32,4 +33,10 @@ public class BitmapToVectorDrawable {
     return bitmap;
   }
 
+
+  public static  Drawable resize(Drawable image ,Context context) {
+    Bitmap b = ((BitmapDrawable)image).getBitmap();
+    Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 95, 126, false);
+    return new BitmapDrawable(context.getResources(), bitmapResized);
+  }
 }
